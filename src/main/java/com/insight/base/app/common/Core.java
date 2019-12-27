@@ -40,11 +40,11 @@ public class Core {
      * @param content  日志内容
      */
     @Async
-    public void writeLog(LoginInfo info, OperateType type, String business, String id, Object content) {
+    public void writeLog(LoginInfo info, OperateType type, String id, Object content) {
         Log log = new Log();
         log.setId(uuid());
         log.setType(type);
-        log.setBusiness(business);
+        log.setBusiness("资源管理");
         log.setBusinessId(id);
         log.setContent(content);
         log.setCreator(info.getUserName());
@@ -57,12 +57,11 @@ public class Core {
     /**
      * 获取操作日志列表
      *
-     * @param business 业务类型
      * @param key      查询关键词
      * @return 操作日志列表
      */
-    public List<Log> getLogs(String business, String key) {
-        return mapper.getLogs(business, key);
+    public List<Log> getLogs(String key) {
+        return mapper.getLogs("资源管理", key);
     }
 
     /**

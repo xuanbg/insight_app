@@ -1,15 +1,22 @@
 package com.insight.base.app.manage;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.insight.base.app.common.Core;
 import com.insight.base.app.common.dto.AppListDto;
 import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
 import com.insight.base.app.common.mapper.AppMapper;
+import com.insight.util.Generator;
 import com.insight.util.ReplyHelper;
+import com.insight.util.pojo.Log;
 import com.insight.util.pojo.LoginInfo;
+import com.insight.util.pojo.OperateType;
 import com.insight.util.pojo.Reply;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -20,14 +27,17 @@ import java.util.List;
 @Service
 public class AppServiceImpl implements AppService {
     private final AppMapper mapper;
+    private final Core core;
 
     /**
      * 构造方法
      *
      * @param mapper AppMapper
+     * @param core   Core
      */
-    public AppServiceImpl(AppMapper mapper) {
+    public AppServiceImpl(AppMapper mapper, Core core) {
         this.mapper = mapper;
+        this.core = core;
     }
 
     /**
@@ -68,7 +78,39 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply newApp(LoginInfo info, App dto) {
-        return null;
+        String id = Generator.uuid();
+        dto.setId(id);
+
+        Integer permitLife = dto.getPermitLife();
+        if (permitLife == null || permitLife == 0) {
+            dto.setPermitLife(300000);
+        }
+
+        Integer tokenLife = dto.getTokenLife();
+        if (tokenLife == null || tokenLife == 0) {
+            dto.setTokenLife(7200000);
+        }
+
+        if (dto.getSigninOne() == null) {
+            dto.setSigninOne(false);
+        }
+
+        if (dto.getAutoRefresh() == null) {
+            dto.setAutoRefresh(false);
+        }
+
+        if (dto.getAutoTenant() == null) {
+            dto.setAutoTenant(true);
+        }
+
+        dto.setCreator(info.getUserName());
+        dto.setCreatorId(info.getUserId());
+        dto.setCreatedTime(LocalDateTime.now());
+
+        mapper.addApp(dto);
+        core.writeLog(info, OperateType.INSERT, id, dto);
+
+        return ReplyHelper.created(id);
     }
 
     /**
@@ -80,7 +122,16 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply editApp(LoginInfo info, App dto) {
-        return null;
+        String id = dto.getId();
+        App app = mapper.getApp(id);
+        if (app == null) {
+            return ReplyHelper.fail("ID不存在,未更新数据");
+        }
+
+        mapper.updateApp(dto);
+        core.writeLog(info, OperateType.UPDATE, id, dto);
+
+        return ReplyHelper.success();
     }
 
     /**
@@ -92,7 +143,15 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply deleteApp(LoginInfo info, String id) {
-        return null;
+        App app = mapper.getApp(id);
+        if (app == null) {
+            return ReplyHelper.fail("ID不存在,未删除数据");
+        }
+
+        mapper.deleteApp(id);
+        core.writeLog(info, OperateType.DELETE, id, app);
+
+        return ReplyHelper.success();
     }
 
     /**
@@ -108,7 +167,7 @@ public class AppServiceImpl implements AppService {
             return ReplyHelper.fail("ID不存在,未读取数据");
         }
 
-        return null;
+        return ReplyHelper.success(navigator);
     }
 
     /**
@@ -120,7 +179,16 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply newNavigator(LoginInfo info, Navigator dto) {
-        return null;
+        String id = Generator.uuid();
+        dto.setId(id);
+        dto.setCreator(info.getUserName());
+        dto.setCreatorId(info.getUserId());
+        dto.setCreatedTime(LocalDateTime.now());
+
+        mapper.addNavigator(dto);
+        core.writeLog(info, OperateType.INSERT, id, dto);
+
+        return ReplyHelper.created(id);
     }
 
     /**
@@ -132,7 +200,16 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply editNavigator(LoginInfo info, Navigator dto) {
-        return null;
+        String id = dto.getId();
+        Navigator navigator = mapper.getNavigator(id);
+        if (navigator == null) {
+            return ReplyHelper.fail("ID不存在,未更新数据");
+        }
+
+        mapper.updateNavigator(dto);
+        core.writeLog(info, OperateType.UPDATE, id, dto);
+
+        return ReplyHelper.success();
     }
 
     /**
@@ -144,7 +221,20 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply deleteNavigator(LoginInfo info, String id) {
-        return null;
+        Navigator navigator = mapper.getNavigator(id);
+        if (navigator == null) {
+            return ReplyHelper.fail("ID不存在,未删除数据");
+        }
+
+        if (navigator.getType() == 1) {
+            mapper.deleteNavigator(id);
+        } else {
+            mapper.deleteModule(id);
+        }
+
+        core.writeLog(info, OperateType.DELETE, id, navigator);
+
+        return ReplyHelper.success();
     }
 
     /**
@@ -160,7 +250,7 @@ public class AppServiceImpl implements AppService {
             return ReplyHelper.fail("ID不存在,未读取数据");
         }
 
-        return null;
+        return ReplyHelper.success(function);
     }
 
     /**
@@ -172,7 +262,16 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply newFunction(LoginInfo info, Function dto) {
-        return null;
+        String id = Generator.uuid();
+        dto.setId(id);
+        dto.setCreator(info.getUserName());
+        dto.setCreatorId(info.getUserId());
+        dto.setCreatedTime(LocalDateTime.now());
+
+        mapper.addFunction(dto);
+        core.writeLog(info, OperateType.INSERT, id, dto);
+
+        return ReplyHelper.created(id);
     }
 
     /**
@@ -184,7 +283,16 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply editFunction(LoginInfo info, Function dto) {
-        return null;
+        String id = dto.getId();
+        Function function = mapper.getFunction(id);
+        if (function == null) {
+            return ReplyHelper.fail("ID不存在,未更新数据");
+        }
+
+        mapper.updateFunction(dto);
+        core.writeLog(info, OperateType.UPDATE, id, dto);
+
+        return ReplyHelper.success();
     }
 
     /**
@@ -196,7 +304,15 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply deleteFunction(LoginInfo info, String id) {
-        return null;
+        Function function = mapper.getFunction(id);
+        if (function == null) {
+            return ReplyHelper.fail("ID不存在,未删除数据");
+        }
+
+        mapper.deleteFunction(id);
+        core.writeLog(info, OperateType.DELETE, id, function);
+
+        return ReplyHelper.success();
     }
 
     /**
@@ -209,7 +325,11 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply getAppLogs(String keyword, int page, int size) {
-        return null;
+        PageHelper.startPage(page, size);
+        List<Log> logs = core.getLogs(keyword);
+        PageInfo<Log> pageInfo = new PageInfo<>(logs);
+
+        return ReplyHelper.success(logs, pageInfo.getTotal());
     }
 
     /**
@@ -220,6 +340,11 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply getAppLog(String id) {
-        return null;
+        Log log = core.getLog(id);
+        if (log == null) {
+            return ReplyHelper.fail("ID不存在,未读取数据");
+        }
+
+        return ReplyHelper.success(log);
     }
 }
