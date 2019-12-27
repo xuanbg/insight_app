@@ -46,7 +46,7 @@ ribbon:
   ConnectTimeout: 5000
 logging:
   level:
-    com.insight: debug
+    com.insight: info
 #  pattern:
 #    console: %d{yyyy-MM-dd HH:mm:ss.SSS} gateway [%-5level] %X{requestId} %logger{35} : %msg%n
 mybatis:
