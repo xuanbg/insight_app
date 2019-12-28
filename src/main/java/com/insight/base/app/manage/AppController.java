@@ -18,7 +18,7 @@ import javax.validation.Valid;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/base/app")
+@RequestMapping("/base/resource")
 public class AppController {
     private final AppService service;
 
