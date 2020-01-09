@@ -1,6 +1,7 @@
 package com.insight.base.app.common.entity;
 
 import com.insight.util.Json;
+import com.insight.util.pojo.FuncInfo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -46,7 +47,7 @@ public class Function implements Serializable {
     /**
      * 图标信息
      */
-    private IconInfo iconInfo;
+    private FuncInfo funcInfo;
 
     /**
      * 备注
@@ -116,12 +117,12 @@ public class Function implements Serializable {
         this.authCodes = authCodes;
     }
 
-    public IconInfo getIconInfo() {
-        return iconInfo;
+    public FuncInfo getFuncInfo() {
+        return funcInfo;
     }
 
-    public void setIconInfo(IconInfo iconInfo) {
-        this.iconInfo = iconInfo;
+    public void setFuncInfo(FuncInfo funcInfo) {
+        this.funcInfo = funcInfo;
     }
 
     public String getRemark() {

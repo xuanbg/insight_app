@@ -1,8 +1,12 @@
 package com.insight.base.app.common.mapper;
 
 import com.insight.base.app.common.dto.AppListDto;
-import com.insight.base.app.common.entity.*;
+import com.insight.base.app.common.entity.App;
+import com.insight.base.app.common.entity.Function;
+import com.insight.base.app.common.entity.Navigator;
 import com.insight.util.common.JsonTypeHandler;
+import com.insight.util.pojo.FuncInfo;
+import com.insight.util.pojo.ModuleInfo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -21,15 +25,9 @@ public interface AppMapper {
      * @param key      查询关键词
      * @return 应用列表
      */
-    @Select("<script>select * from (select a.id, null as parent_id, 0 as type, a.index, a.name, a.icon from ibs_application a " +
-            "<if test = 'key!=null'>where a.name like concat('%',#{key},'%') </if>" +
-            "union all select n.id, case when n.parent_id is null then n.app_id else n.parent_id end as parent_id, n.type, n.index, n.name, n.module_info ->> '$.icon' as icon " +
-            "from ibs_application a join ibs_navigator n on n.app_id = a.id " +
-            "<if test = 'key!=null'>where a.name like concat('%',#{key},'%') </if>" +
-            "union all select f.id, f.nav_id as parent_id, 3 as type, f.index, f.name, f.icon_info ->> '$.icon' as icon " +
-            "from ibs_application a join ibs_navigator n on n.app_id = a.id join ibs_function f on f.nav_id = n.id " +
-            "<if test = 'key!=null'>where a.name like concat('%',#{key},'%') </if>" +
-            ") t order by t.index;</script>")
+    @Select("<script>select id, name, alias, domain, permit_life, token_life, is_signin_one, is_auto_refresh, is_auto_tenant from ibs_application " +
+            "<if test = 'key!=null'>where `name` like concat('%',#{key},'%') </if>" +
+            "order by `index`;</script>")
     List<AppListDto> getApps(@Param("key") String key);
 
     /**
@@ -121,7 +119,7 @@ public interface AppMapper {
      * @param id 应用ID
      * @return 应用详情
      */
-    @Results({@Result(property = "iconInfo", column = "icon_info", javaType = IconInfo.class, typeHandler = JsonTypeHandler.class)})
+    @Results({@Result(property = "funcInfo", column = "func_info", javaType = FuncInfo.class, typeHandler = JsonTypeHandler.class)})
     @Select("select * from ibs_function where id = #{id};")
     Function getFunction(String id);
 
@@ -130,7 +128,7 @@ public interface AppMapper {
      *
      * @param function 功能DTO
      */
-    @Insert("insert ibs_function(id, nav_id, type, `index`, `name`, auth_codes, icon_info, remark, creator, creator_id, created_time) values " +
+    @Insert("insert ibs_function(id, nav_id, type, `index`, `name`, auth_codes, func_info, remark, creator, creator_id, created_time) values " +
             "(#{id}, #{navId}, #{type}, #{index}, #{name}, #{authCodes}, #{iconInfo, typeHandler = com.insight.util.common.JsonTypeHandler}, " +
             "#{remark}, #{creator}, #{creatorId}, #{createdTime});")
     void addFunction(Function function);
@@ -141,7 +139,7 @@ public interface AppMapper {
      * @param function 功能DTO
      */
     @Update("update ibs_function set nav_id = #{navId}, type = #{type}, `index` = #{index}, `name` = #{name}, auth_codes = #{authCodes}, " +
-            "icon_info = #{iconInfo, typeHandler = com.insight.util.common.JsonTypeHandler}, remark = #{remark} where id = #{id};")
+            "func_info = #{iconInfo, typeHandler = com.insight.util.common.JsonTypeHandler}, remark = #{remark} where id = #{id};")
     void updateFunction(Function function);
 
     /**

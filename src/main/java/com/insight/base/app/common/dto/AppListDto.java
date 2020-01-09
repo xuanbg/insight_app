@@ -13,34 +13,49 @@ public class AppListDto implements Serializable {
     private static final long serialVersionUID = -1L;
 
     /**
-     * ID
+     * 应用ID
      */
     private String id;
 
     /**
-     * 父级ID
-     */
-    private String parentId;
-
-    /**
-     * 级别:0.应用;1.一级导航;2.二级导航;3.功能
-     */
-    private Integer type;
-
-    /**
-     * 序号
-     */
-    private Integer index;
-
-    /**
-     * 名称
+     * 应用名称
      */
     private String name;
 
     /**
-     * 图标
+     * 应用简称
      */
-    private String icon;
+    private String alias;
+
+    /**
+     * 应用域名
+     */
+    private String domain;
+
+    /**
+     * 授权码生命周期(毫秒)
+     */
+    private Integer permitLife;
+
+    /**
+     * 令牌生命周期(毫秒)
+     */
+    private Integer tokenLife;
+
+    /**
+     * 是否单设备登录
+     */
+    private Boolean isSigninOne;
+
+    /**
+     * 是否自动刷新Token
+     */
+    private Boolean isAutoRefresh;
+
+    /**
+     * 是否自动加载租户
+     */
+    private Boolean isAutoTenant;
 
     public String getId() {
         return id;
@@ -48,14 +63,6 @@ public class AppListDto implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Integer getIndex() {
-        return index;
-    }
-
-    public void setIndex(Integer index) {
-        this.index = index;
     }
 
     public String getName() {
@@ -66,12 +73,60 @@ public class AppListDto implements Serializable {
         this.name = name;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public Integer getPermitLife() {
+        return permitLife;
+    }
+
+    public void setPermitLife(Integer permitLife) {
+        this.permitLife = permitLife;
+    }
+
+    public Integer getTokenLife() {
+        return tokenLife;
+    }
+
+    public void setTokenLife(Integer tokenLife) {
+        this.tokenLife = tokenLife;
+    }
+
+    public Boolean getSigninOne() {
+        return isSigninOne;
+    }
+
+    public void setSigninOne(Boolean signinOne) {
+        isSigninOne = signinOne;
+    }
+
+    public Boolean getAutoRefresh() {
+        return isAutoRefresh;
+    }
+
+    public void setAutoRefresh(Boolean autoRefresh) {
+        isAutoRefresh = autoRefresh;
+    }
+
+    public Boolean getAutoTenant() {
+        return isAutoTenant;
+    }
+
+    public void setAutoTenant(Boolean autoTenant) {
+        isAutoTenant = autoTenant;
     }
 
     @Override
