@@ -1,6 +1,8 @@
 package com.insight.base.app.common.mapper;
 
 import com.insight.base.app.common.dto.AppListDto;
+import com.insight.base.app.common.dto.FuncListDto;
+import com.insight.base.app.common.dto.NavListDto;
 import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
@@ -22,12 +24,12 @@ public interface AppMapper {
     /**
      * 获取应用列表
      *
-     * @param key      查询关键词
+     * @param key 查询关键词
      * @return 应用列表
      */
-    @Select("<script>select id, name, alias, domain, permit_life, token_life, is_signin_one, is_auto_refresh, is_auto_tenant from ibs_application " +
-            "<if test = 'key!=null'>where `name` like concat('%',#{key},'%') </if>" +
-            "order by `index`;</script>")
+    @Select("<script>select id, `index`, name, alias, domain, permit_life, token_life, is_signin_one, is_auto_refresh, is_auto_tenant from ibs_application " +
+            "<if test = 'key!=null'>where `name` like concat('%',#{key},'%') or alias = #{key} or domain like concat('%',#{key},'%') </if>" +
+            "order by `index`</script>")
     List<AppListDto> getApps(@Param("key") String key);
 
     /**
@@ -67,10 +69,20 @@ public interface AppMapper {
     void deleteApp(String id);
 
     /**
+     * 获取导航列表
+     *
+     * @param appId 应用ID
+     * @return 导航列表
+     */
+    @Results({@Result(property = "moduleInfo", column = "module_info", javaType = ModuleInfo.class, typeHandler = JsonTypeHandler.class)})
+    @Select("select id, parent_id, app_id, type, `index`, `name`, module_info from ibs_navigator where app_id = #{appId} order by type, `index`;")
+    List<NavListDto> getNavigators(String appId);
+
+    /**
      * 获取导航详情
      *
-     * @param id 应用ID
-     * @return 应用详情
+     * @param id 导航ID
+     * @return 导航详情
      */
     @Results({@Result(property = "moduleInfo", column = "module_info", javaType = ModuleInfo.class, typeHandler = JsonTypeHandler.class)})
     @Select("select * from ibs_navigator where id = #{id};")
@@ -81,9 +93,9 @@ public interface AppMapper {
      *
      * @param navigator 导航DTO
      */
-    @Insert("insert ibs_navigator(id, parent_id, app_id, type, `index`, `name`, module_info, remark, creator, creator_id, created_time) values " +
+    @Insert("insert ibs_navigator(id, parent_id, app_id, type, `index`, `name`, module_info, creator, creator_id, created_time) values " +
             "(#{id}, #{parentId}, #{appId}, #{type}, #{index}, #{name}, #{moduleInfo, typeHandler = com.insight.util.common.JsonTypeHandler}, " +
-            "#{remark}, #{creator}, #{creatorId}, #{createdTime});")
+            "#{creator}, #{creatorId}, #{createdTime});")
     void addNavigator(Navigator navigator);
 
     /**
@@ -92,11 +104,11 @@ public interface AppMapper {
      * @param navigator 导航DTO
      */
     @Update("update ibs_navigator set parent_id = #{parentId}, app_id = #{appId}, type = #{type}, `index` = #{index}, `name` = #{name}, " +
-            "module_info = #{moduleInfo, typeHandler = com.insight.util.common.JsonTypeHandler}, remark = #{remark} where id = #{id};")
+            "module_info = #{moduleInfo, typeHandler = com.insight.util.common.JsonTypeHandler} where id = #{id};")
     void updateNavigator(Navigator navigator);
 
     /**
-     * 删除导航
+     * 删除一级导航
      *
      * @param id 导航ID
      */
@@ -105,7 +117,7 @@ public interface AppMapper {
     void deleteNavigator(String id);
 
     /**
-     * 删除导航
+     * 删除二级导航
      *
      * @param id 导航ID
      */
@@ -114,10 +126,20 @@ public interface AppMapper {
     void deleteModule(String id);
 
     /**
+     * 获取功能列表
+     *
+     * @param navId 应用ID
+     * @return 导航列表
+     */
+    @Results({@Result(property = "funcInfo", column = "func_info", javaType = FuncInfo.class, typeHandler = JsonTypeHandler.class)})
+    @Select("select id, nav_id, type, `index`, `name`, auth_codes, func_info from ibs_function where nav_id = #{navId} order by `index`;")
+    List<FuncListDto> getFunctions(String navId);
+
+    /**
      * 获取功能详情
      *
-     * @param id 应用ID
-     * @return 应用详情
+     * @param id 功能ID
+     * @return 功能详情
      */
     @Results({@Result(property = "funcInfo", column = "func_info", javaType = FuncInfo.class, typeHandler = JsonTypeHandler.class)})
     @Select("select * from ibs_function where id = #{id};")
@@ -128,9 +150,9 @@ public interface AppMapper {
      *
      * @param function 功能DTO
      */
-    @Insert("insert ibs_function(id, nav_id, type, `index`, `name`, auth_codes, func_info, remark, creator, creator_id, created_time) values " +
-            "(#{id}, #{navId}, #{type}, #{index}, #{name}, #{authCodes}, #{iconInfo, typeHandler = com.insight.util.common.JsonTypeHandler}, " +
-            "#{remark}, #{creator}, #{creatorId}, #{createdTime});")
+    @Insert("insert ibs_function(id, nav_id, type, `index`, `name`, auth_codes, func_info, creator, creator_id, created_time) values " +
+            "(#{id}, #{navId}, #{type}, #{index}, #{name}, #{authCodes}, #{funcInfo, typeHandler = com.insight.util.common.JsonTypeHandler}, " +
+            "#{creator}, #{creatorId}, #{createdTime});")
     void addFunction(Function function);
 
     /**
@@ -139,7 +161,7 @@ public interface AppMapper {
      * @param function 功能DTO
      */
     @Update("update ibs_function set nav_id = #{navId}, type = #{type}, `index` = #{index}, `name` = #{name}, auth_codes = #{authCodes}, " +
-            "func_info = #{iconInfo, typeHandler = com.insight.util.common.JsonTypeHandler}, remark = #{remark} where id = #{id};")
+            "func_info = #{funcInfo, typeHandler = com.insight.util.common.JsonTypeHandler} where id = #{id};")
     void updateFunction(Function function);
 
     /**

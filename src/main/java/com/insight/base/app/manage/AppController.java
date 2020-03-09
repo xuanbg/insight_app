@@ -35,11 +35,13 @@ public class AppController {
      * 查询应用列表
      *
      * @param keyword 查询关键词
+     * @param page    分页页码
+     * @param size    每页记录数
      * @return Reply
      */
     @GetMapping("/v1.0/apps")
-    public Reply getApps(@RequestParam(required = false) String keyword) {
-        return service.getApps(keyword);
+    public Reply getApps(@RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "20") int size) {
+        return service.getApps(keyword, page, size);
     }
 
     /**
@@ -102,6 +104,21 @@ public class AppController {
     /**
      * 获取导航详情
      *
+     * @param id 应用ID
+     * @return Reply
+     */
+    @GetMapping("/v1.0/apps/{id}/navigators")
+    public Reply getNavigators(@PathVariable String id) {
+        if (id == null || id.isEmpty()) {
+            return ReplyHelper.invalidParam();
+        }
+
+        return service.getNavigators(id);
+    }
+
+    /**
+     * 获取导航详情
+     *
      * @param id 导航ID
      * @return Reply
      */
@@ -154,6 +171,21 @@ public class AppController {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
 
         return service.deleteNavigator(loginInfo, id);
+    }
+
+    /**
+     * 获取功能列表
+     *
+     * @param id 导航ID
+     * @return Reply
+     */
+    @GetMapping("/v1.0/navigators/{id}/functions")
+    public Reply getFunctions(@PathVariable String id) {
+        if (id == null || id.isEmpty()) {
+            return ReplyHelper.invalidParam();
+        }
+
+        return service.getFunctions(id);
     }
 
     /**

@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insight.base.app.common.Core;
 import com.insight.base.app.common.dto.AppListDto;
+import com.insight.base.app.common.dto.FuncListDto;
+import com.insight.base.app.common.dto.NavListDto;
 import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
@@ -44,13 +46,17 @@ public class AppServiceImpl implements AppService {
      * 查询应用列表
      *
      * @param keyword 查询关键词
+     * @param page    分页页码
+     * @param size    每页记录数
      * @return Reply
      */
     @Override
-    public Reply getApps(String keyword) {
-        List<AppListDto> list = mapper.getApps(keyword);
+    public Reply getApps(String keyword, int page, int size) {
+        PageHelper.startPage(page, size);
+        List<AppListDto> apps = mapper.getApps(keyword);
+        PageInfo<AppListDto> pageInfo = new PageInfo<>(apps);
 
-        return ReplyHelper.success(list);
+        return ReplyHelper.success(apps, pageInfo.getTotal());
     }
 
     /**
@@ -155,6 +161,24 @@ public class AppServiceImpl implements AppService {
     }
 
     /**
+     * 获取导航列表
+     *
+     * @param appId 应用ID
+     * @return Reply
+     */
+    @Override
+    public Reply getNavigators(String appId) {
+        App app = mapper.getApp(appId);
+        if (app == null) {
+            return ReplyHelper.fail("ID不存在,未读取数据");
+        }
+
+        List<NavListDto> navigators = mapper.getNavigators(appId);
+
+        return ReplyHelper.success(navigators);
+    }
+
+    /**
      * 获取导航详情
      *
      * @param id 导航ID
@@ -235,6 +259,24 @@ public class AppServiceImpl implements AppService {
         core.writeLog(info, OperateType.DELETE, id, navigator);
 
         return ReplyHelper.success();
+    }
+
+    /**
+     * 获取功能列表
+     *
+     * @param navId 导航ID
+     * @return Reply
+     */
+    @Override
+    public Reply getFunctions(String navId) {
+        Navigator navigator = mapper.getNavigator(navId);
+        if (navigator == null) {
+            return ReplyHelper.fail("ID不存在,未读取数据");
+        }
+
+        List<FuncListDto> functions = mapper.getFunctions(navId);
+
+        return ReplyHelper.success(functions);
     }
 
     /**

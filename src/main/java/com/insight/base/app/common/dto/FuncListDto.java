@@ -1,17 +1,16 @@
-package com.insight.base.app.common.entity;
+package com.insight.base.app.common.dto;
 
 import com.insight.util.Json;
 import com.insight.util.pojo.FuncInfo;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * @author 宣炳刚
  * @date 2019/12/12
- * @remark 功能实体类
+ * @remark 功能列表类
  */
-public class Function implements Serializable {
+public class FuncListDto implements Serializable {
     private static final long serialVersionUID = -1L;
 
     /**
@@ -48,21 +47,6 @@ public class Function implements Serializable {
      * 图标信息
      */
     private FuncInfo funcInfo;
-
-    /**
-     * 创建人
-     */
-    private String creator;
-
-    /**
-     * 创建人ID
-     */
-    private String creatorId;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createdTime;
 
     public String getId() {
         return id;
@@ -118,30 +102,6 @@ public class Function implements Serializable {
 
     public void setFuncInfo(FuncInfo funcInfo) {
         this.funcInfo = funcInfo;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public String getCreatorId() {
-        return creatorId;
-    }
-
-    public void setCreatorId(String creatorId) {
-        this.creatorId = creatorId;
-    }
-
-    public LocalDateTime getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(LocalDateTime createdTime) {
-        this.createdTime = createdTime;
     }
 
     @Override

@@ -17,9 +17,11 @@ public interface AppService {
      * 查询应用列表
      *
      * @param keyword 查询关键词
+     * @param page    分页页码
+     * @param size    每页记录数
      * @return Reply
      */
-    Reply getApps(String keyword);
+    Reply getApps(String keyword, int page, int size);
 
     /**
      * 获取应用详情
@@ -57,6 +59,14 @@ public interface AppService {
     Reply deleteApp(LoginInfo info, String id);
 
     /**
+     * 获取导航列表
+     *
+     * @param appId 应用ID
+     * @return Reply
+     */
+    Reply getNavigators(String appId);
+
+    /**
      * 获取导航详情
      *
      * @param id 导航ID
@@ -90,6 +100,14 @@ public interface AppService {
      * @return Reply
      */
     Reply deleteNavigator(LoginInfo info, String id);
+
+    /**
+     * 获取功能列表
+     *
+     * @param navId 导航ID
+     * @return Reply
+     */
+    Reply getFunctions(String navId);
 
     /**
      * 获取功能详情

@@ -18,6 +18,11 @@ public class AppListDto implements Serializable {
     private String id;
 
     /**
+     * 序号
+     */
+    private Integer index;
+
+    /**
      * 应用名称
      */
     private String name;
@@ -63,6 +68,14 @@ public class AppListDto implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 
     public String getName() {
