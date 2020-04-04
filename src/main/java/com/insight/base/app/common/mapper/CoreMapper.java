@@ -31,8 +31,7 @@ public interface CoreMapper {
      * @param key      查询关键词
      * @return 操作日志列表
      */
-    @Select("<script>select id, type, business, business_id, creator, creator_id, created_time " +
-            "from ibl_operate_log where business = #{business} " +
+    @Select("<script>select id, type, business, business_id, creator, creator_id, created_time from ibl_operate_log where business = #{business} " +
             "<if test = 'key!=null'>and (type = #{key} or business = #{key} or business_id = #{key} or creator = #{key} or creator_id = #{key}) </if>" +
             "order by created_time</script>")
     List<Log> getLogs(@Param("business") String business, @Param("key") String key);
