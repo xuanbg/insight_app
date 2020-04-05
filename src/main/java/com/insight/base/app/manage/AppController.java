@@ -3,10 +3,10 @@ package com.insight.base.app.manage;
 import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
-import com.insight.util.Json;
-import com.insight.util.ReplyHelper;
-import com.insight.util.pojo.LoginInfo;
-import com.insight.util.pojo.Reply;
+import com.insight.utils.Json;
+import com.insight.utils.ReplyHelper;
+import com.insight.utils.pojo.LoginInfo;
+import com.insight.utils.pojo.Reply;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

@@ -6,9 +6,9 @@ import com.insight.base.app.common.dto.NavListDto;
 import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
-import com.insight.util.common.JsonTypeHandler;
-import com.insight.util.pojo.FuncInfo;
-import com.insight.util.pojo.ModuleInfo;
+import com.insight.utils.common.JsonTypeHandler;
+import com.insight.utils.pojo.FuncInfo;
+import com.insight.utils.pojo.ModuleInfo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -46,8 +46,8 @@ public interface AppMapper {
      *
      * @param app 应用DTO
      */
-    @Insert("insert ibs_application (id, `index`, `name`, alias, icon, domain, permit_life, token_life, is_signin_one, is_auto_refresh, is_auto_tenant, creator, creator_id, created_time) values " +
-            "(#{id}, #{index}, #{name}, #{alias}, #{icon}, #{domain}, #{permitLife}, #{tokenLife}, #{isSigninOne}, #{isAutoRefresh}, #{isAutoTenant}, #{creator}, #{creatorId}, #{createdTime});")
+    @Insert("insert ibs_application (id, `index`, `name`, alias, icon, domain, permit_life, token_life, is_signin_one, is_auto_refresh, creator, creator_id, created_time) values " +
+            "(#{id}, #{index}, #{name}, #{alias}, #{icon}, #{domain}, #{permitLife}, #{tokenLife}, #{isSigninOne}, #{isAutoRefresh}, #{creator}, #{creatorId}, #{createdTime});")
     void addApp(App app);
 
     /**
@@ -55,8 +55,8 @@ public interface AppMapper {
      *
      * @param app 应用DTO
      */
-    @Update("update ibs_application set `index` = #{index}, `name` = #{name}, alias = #{alias}, icon = #{icon}, domain = #{domain}, permit_life = #{permitLife}, " +
-            "token_life = #{tokenLife}, is_signin_one = #{isSigninOne}, is_auto_refresh = #{isAutoRefresh}, is_auto_tenant = #{isAutoTenant} where id = #{id};")
+    @Update("update ibs_application set `index` = #{index}, `name` = #{name}, alias = #{alias}, icon = #{icon}, domain = #{domain}, " +
+            "permit_life = #{permitLife}, token_life = #{tokenLife}, is_signin_one = #{isSigninOne}, is_auto_refresh = #{isAutoRefresh} where id = #{id};")
     void updateApp(App app);
 
     /**
@@ -94,7 +94,7 @@ public interface AppMapper {
      * @param navigator 导航DTO
      */
     @Insert("insert ibs_navigator(id, parent_id, app_id, type, `index`, `name`, module_info, creator, creator_id, created_time) values " +
-            "(#{id}, #{parentId}, #{appId}, #{type}, #{index}, #{name}, #{moduleInfo, typeHandler = com.insight.util.common.JsonTypeHandler}, " +
+            "(#{id}, #{parentId}, #{appId}, #{type}, #{index}, #{name}, #{moduleInfo, typeHandler = com.insight.utils.common.JsonTypeHandler}, " +
             "#{creator}, #{creatorId}, #{createdTime});")
     void addNavigator(Navigator navigator);
 
@@ -104,7 +104,7 @@ public interface AppMapper {
      * @param navigator 导航DTO
      */
     @Update("update ibs_navigator set parent_id = #{parentId}, app_id = #{appId}, type = #{type}, `index` = #{index}, `name` = #{name}, " +
-            "module_info = #{moduleInfo, typeHandler = com.insight.util.common.JsonTypeHandler} where id = #{id};")
+            "module_info = #{moduleInfo, typeHandler = com.insight.utils.common.JsonTypeHandler} where id = #{id};")
     void updateNavigator(Navigator navigator);
 
     /**
@@ -151,7 +151,7 @@ public interface AppMapper {
      * @param function 功能DTO
      */
     @Insert("insert ibs_function(id, nav_id, type, `index`, `name`, auth_codes, func_info, creator, creator_id, created_time) values " +
-            "(#{id}, #{navId}, #{type}, #{index}, #{name}, #{authCodes}, #{funcInfo, typeHandler = com.insight.util.common.JsonTypeHandler}, " +
+            "(#{id}, #{navId}, #{type}, #{index}, #{name}, #{authCodes}, #{funcInfo, typeHandler = com.insight.utils.common.JsonTypeHandler}, " +
             "#{creator}, #{creatorId}, #{createdTime});")
     void addFunction(Function function);
 
@@ -161,7 +161,7 @@ public interface AppMapper {
      * @param function 功能DTO
      */
     @Update("update ibs_function set nav_id = #{navId}, type = #{type}, `index` = #{index}, `name` = #{name}, auth_codes = #{authCodes}, " +
-            "func_info = #{funcInfo, typeHandler = com.insight.util.common.JsonTypeHandler} where id = #{id};")
+            "func_info = #{funcInfo, typeHandler = com.insight.utils.common.JsonTypeHandler} where id = #{id};")
     void updateFunction(Function function);
 
     /**

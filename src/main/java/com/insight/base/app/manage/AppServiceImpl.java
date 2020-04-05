@@ -10,12 +10,12 @@ import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
 import com.insight.base.app.common.mapper.AppMapper;
-import com.insight.util.Generator;
-import com.insight.util.ReplyHelper;
-import com.insight.util.pojo.Log;
-import com.insight.util.pojo.LoginInfo;
-import com.insight.util.pojo.OperateType;
-import com.insight.util.pojo.Reply;
+import com.insight.utils.ReplyHelper;
+import com.insight.utils.Util;
+import com.insight.utils.pojo.Log;
+import com.insight.utils.pojo.LoginInfo;
+import com.insight.utils.pojo.OperateType;
+import com.insight.utils.pojo.Reply;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -84,7 +84,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply newApp(LoginInfo info, App dto) {
-        String id = Generator.uuid();
+        String id = Util.uuid();
         dto.setId(id);
 
         Integer permitLife = dto.getPermitLife();
@@ -103,10 +103,6 @@ public class AppServiceImpl implements AppService {
 
         if (dto.getAutoRefresh() == null) {
             dto.setAutoRefresh(false);
-        }
-
-        if (dto.getAutoTenant() == null) {
-            dto.setAutoTenant(true);
         }
 
         dto.setCreator(info.getUserName());
@@ -203,7 +199,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply newNavigator(LoginInfo info, Navigator dto) {
-        String id = Generator.uuid();
+        String id = Util.uuid();
         dto.setId(id);
         dto.setCreator(info.getUserName());
         dto.setCreatorId(info.getUserId());
@@ -304,7 +300,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply newFunction(LoginInfo info, Function dto) {
-        String id = Generator.uuid();
+        String id = Util.uuid();
         dto.setId(id);
         dto.setCreator(info.getUserName());
         dto.setCreatorId(info.getUserId());

@@ -1,7 +1,7 @@
 package com.insight.base.app.common.entity;
 
-import com.insight.util.Json;
-import com.insight.util.pojo.ModuleInfo;
+import com.insight.utils.Json;
+import com.insight.utils.pojo.ModuleInfo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

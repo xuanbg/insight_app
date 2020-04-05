@@ -1,6 +1,6 @@
 package com.insight.base.app.common.entity;
 
-import com.insight.util.Json;
+import com.insight.utils.Json;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -62,11 +62,6 @@ public class App implements Serializable {
      * 是否自动刷新Token
      */
     private Boolean isAutoRefresh;
-
-    /**
-     * 是否自动加载租户
-     */
-    private Boolean isAutoTenant;
 
     /**
      * 创建人
@@ -161,14 +156,6 @@ public class App implements Serializable {
 
     public void setAutoRefresh(Boolean autoRefresh) {
         isAutoRefresh = autoRefresh;
-    }
-
-    public Boolean getAutoTenant() {
-        return isAutoTenant;
-    }
-
-    public void setAutoTenant(Boolean autoTenant) {
-        isAutoTenant = autoTenant;
     }
 
     public String getCreator() {

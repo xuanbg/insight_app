@@ -1,6 +1,6 @@
 package com.insight.base.app.common.dto;
 
-import com.insight.util.Json;
+import com.insight.utils.Json;
 
 import java.io.Serializable;
 
@@ -56,11 +56,6 @@ public class AppListDto implements Serializable {
      * 是否自动刷新Token
      */
     private Boolean isAutoRefresh;
-
-    /**
-     * 是否自动加载租户
-     */
-    private Boolean isAutoTenant;
 
     public String getId() {
         return id;
@@ -132,14 +127,6 @@ public class AppListDto implements Serializable {
 
     public void setAutoRefresh(Boolean autoRefresh) {
         isAutoRefresh = autoRefresh;
-    }
-
-    public Boolean getAutoTenant() {
-        return isAutoTenant;
-    }
-
-    public void setAutoTenant(Boolean autoTenant) {
-        isAutoTenant = autoTenant;
     }
 
     @Override

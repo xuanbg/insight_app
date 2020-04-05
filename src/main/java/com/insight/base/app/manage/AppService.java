@@ -3,8 +3,8 @@ package com.insight.base.app.manage;
 import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
-import com.insight.util.pojo.LoginInfo;
-import com.insight.util.pojo.Reply;
+import com.insight.utils.pojo.LoginInfo;
+import com.insight.utils.pojo.Reply;
 
 /**
  * @author 宣炳刚
