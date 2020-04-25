@@ -27,7 +27,7 @@ public interface AppMapper {
      * @param key 查询关键词
      * @return 应用列表
      */
-    @Select("<script>select id, `index`, name, alias, domain, permit_life, token_life, is_signin_one, is_auto_refresh, is_auto_tenant from ibs_application " +
+    @Select("<script>select id, `index`, name, alias, domain, permit_life, token_life, is_signin_one, is_auto_refresh from ibs_application " +
             "<if test = 'key!=null'>where `name` like concat('%',#{key},'%') or alias = #{key} or domain like concat('%',#{key},'%') </if>" +
             "order by `index`</script>")
     List<AppListDto> getApps(@Param("key") String key);
