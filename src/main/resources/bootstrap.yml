@@ -5,7 +5,7 @@ spring:
 spring:
   profiles: dev
   application:
-    name: BASE-RESOURCE
+    name: base-resource
   cloud:
     config:
       uri: http://192.168.236.8:6101
@@ -15,7 +15,7 @@ spring:
 spring:
   profiles: pro
   application:
-    name: BASE-RESOURCE
+    name: base-resource
   cloud:
     config:
       uri: http://192.168.236.8:6101
