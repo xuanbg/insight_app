@@ -2,7 +2,8 @@ package com.insight.base.app.manage;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.insight.base.app.common.Core;
+import com.insight.base.app.common.client.LogClient;
+import com.insight.base.app.common.client.LogServiceClient;
 import com.insight.base.app.common.dto.AppListDto;
 import com.insight.base.app.common.dto.FuncListDto;
 import com.insight.base.app.common.dto.NavListDto;
@@ -12,7 +13,6 @@ import com.insight.base.app.common.entity.Navigator;
 import com.insight.base.app.common.mapper.AppMapper;
 import com.insight.utils.ReplyHelper;
 import com.insight.utils.Util;
-import com.insight.utils.pojo.Log;
 import com.insight.utils.pojo.LoginInfo;
 import com.insight.utils.pojo.OperateType;
 import com.insight.utils.pojo.Reply;
@@ -28,18 +28,19 @@ import java.util.List;
  */
 @Service
 public class AppServiceImpl implements AppService {
+    private static final String BUSINESS = "资源管理";
     private final AppMapper mapper;
-    private final Core core;
+    private final LogServiceClient client;
 
     /**
      * 构造方法
      *
      * @param mapper AppMapper
-     * @param core   Core
+     * @param client   LogServiceClient
      */
-    public AppServiceImpl(AppMapper mapper, Core core) {
+    public AppServiceImpl(AppMapper mapper, LogServiceClient client) {
         this.mapper = mapper;
-        this.core = core;
+        this.client = client;
     }
 
     /**
@@ -110,7 +111,7 @@ public class AppServiceImpl implements AppService {
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addApp(dto);
-        core.writeLog(info, OperateType.INSERT, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.INSERT, id, dto);
 
         return ReplyHelper.created(id);
     }
@@ -131,7 +132,7 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.updateApp(dto);
-        core.writeLog(info, OperateType.UPDATE, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.UPDATE, id, dto);
 
         return ReplyHelper.success();
     }
@@ -151,7 +152,7 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.deleteApp(id);
-        core.writeLog(info, OperateType.DELETE, id, app);
+        LogClient.writeLog(info, BUSINESS, OperateType.DELETE, id, app);
 
         return ReplyHelper.success();
     }
@@ -206,7 +207,7 @@ public class AppServiceImpl implements AppService {
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addNavigator(dto);
-        core.writeLog(info, OperateType.INSERT, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.INSERT, id, dto);
 
         return ReplyHelper.created(id);
     }
@@ -227,7 +228,7 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.updateNavigator(dto);
-        core.writeLog(info, OperateType.UPDATE, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.UPDATE, id, dto);
 
         return ReplyHelper.success();
     }
@@ -252,7 +253,7 @@ public class AppServiceImpl implements AppService {
             mapper.deleteModule(id);
         }
 
-        core.writeLog(info, OperateType.DELETE, id, navigator);
+        LogClient.writeLog(info, BUSINESS, OperateType.DELETE, id, navigator);
 
         return ReplyHelper.success();
     }
@@ -307,7 +308,7 @@ public class AppServiceImpl implements AppService {
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addFunction(dto);
-        core.writeLog(info, OperateType.INSERT, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.INSERT, id, dto);
 
         return ReplyHelper.created(id);
     }
@@ -328,7 +329,7 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.updateFunction(dto);
-        core.writeLog(info, OperateType.UPDATE, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.UPDATE, id, dto);
 
         return ReplyHelper.success();
     }
@@ -348,7 +349,7 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.deleteFunction(id);
-        core.writeLog(info, OperateType.DELETE, id, function);
+        LogClient.writeLog(info, BUSINESS, OperateType.DELETE, id, function);
 
         return ReplyHelper.success();
     }
@@ -363,11 +364,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply getAppLogs(String keyword, int page, int size) {
-        PageHelper.startPage(page, size);
-        List<Log> logs = core.getLogs(keyword);
-        PageInfo<Log> pageInfo = new PageInfo<>(logs);
-
-        return ReplyHelper.success(logs, pageInfo.getTotal());
+        return client.getLogs(BUSINESS, keyword, page, size);
     }
 
     /**
@@ -378,11 +375,6 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply getAppLog(String id) {
-        Log log = core.getLog(id);
-        if (log == null) {
-            return ReplyHelper.fail("ID不存在,未读取数据");
-        }
-
-        return ReplyHelper.success(log);
+        return client.getLog(id);
     }
 }
