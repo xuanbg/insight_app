@@ -7,12 +7,12 @@ import com.insight.base.app.common.client.LogServiceClient;
 import com.insight.base.app.common.dto.AppListDto;
 import com.insight.base.app.common.dto.FuncListDto;
 import com.insight.base.app.common.dto.NavListDto;
-import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
 import com.insight.base.app.common.mapper.AppMapper;
 import com.insight.utils.ReplyHelper;
 import com.insight.utils.Util;
+import com.insight.utils.pojo.Application;
 import com.insight.utils.pojo.LoginInfo;
 import com.insight.utils.pojo.OperateType;
 import com.insight.utils.pojo.Reply;
@@ -68,7 +68,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply getApp(String id) {
-        App app = mapper.getApp(id);
+        Application app = mapper.getApp(id);
         if (app == null) {
             return ReplyHelper.fail("ID不存在,未读取数据");
         }
@@ -84,18 +84,18 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply newApp(LoginInfo info, App dto) {
+    public Reply newApp(LoginInfo info, Application dto) {
         String id = Util.uuid();
         dto.setId(id);
 
-        Integer permitLife = dto.getPermitLife();
+        Long permitLife = dto.getPermitLife();
         if (permitLife == null || permitLife == 0) {
-            dto.setPermitLife(300000);
+            dto.setPermitLife(300000L);
         }
 
-        Integer tokenLife = dto.getTokenLife();
+        Long tokenLife = dto.getTokenLife();
         if (tokenLife == null || tokenLife == 0) {
-            dto.setTokenLife(7200000);
+            dto.setTokenLife(7200000L);
         }
 
         if (dto.getSigninOne() == null) {
@@ -124,9 +124,9 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply editApp(LoginInfo info, App dto) {
+    public Reply editApp(LoginInfo info, Application dto) {
         String id = dto.getId();
-        App app = mapper.getApp(id);
+        Application app = mapper.getApp(id);
         if (app == null) {
             return ReplyHelper.fail("ID不存在,未更新数据");
         }
@@ -146,7 +146,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply deleteApp(LoginInfo info, String id) {
-        App app = mapper.getApp(id);
+        Application app = mapper.getApp(id);
         if (app == null) {
             return ReplyHelper.fail("ID不存在,未删除数据");
         }
@@ -165,7 +165,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply getNavigators(String appId) {
-        App app = mapper.getApp(appId);
+        Application app = mapper.getApp(appId);
         if (app == null) {
             return ReplyHelper.fail("ID不存在,未读取数据");
         }

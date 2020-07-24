@@ -1,10 +1,10 @@
 package com.insight.base.app.manage;
 
-import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
 import com.insight.utils.Json;
 import com.insight.utils.ReplyHelper;
+import com.insight.utils.pojo.Application;
 import com.insight.utils.pojo.LoginInfo;
 import com.insight.utils.pojo.Reply;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +67,7 @@ public class AppController {
      * @return Reply
      */
     @PostMapping("/v1.0/apps")
-    public Reply newApp(@RequestHeader("loginInfo") String info, @Valid @RequestBody App dto) {
+    public Reply newApp(@RequestHeader("loginInfo") String info, @Valid @RequestBody Application dto) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
 
         return service.newApp(loginInfo, dto);
@@ -81,7 +81,7 @@ public class AppController {
      * @return Reply
      */
     @PutMapping("/v1.0/apps")
-    public Reply editApp(@RequestHeader("loginInfo") String info, @Valid @RequestBody App dto) {
+    public Reply editApp(@RequestHeader("loginInfo") String info, @Valid @RequestBody Application dto) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
 
         return service.editApp(loginInfo, dto);

@@ -1,8 +1,8 @@
 package com.insight.base.app.manage;
 
-import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
+import com.insight.utils.pojo.Application;
 import com.insight.utils.pojo.LoginInfo;
 import com.insight.utils.pojo.Reply;
 
@@ -38,7 +38,7 @@ public interface AppService {
      * @param dto  应用DTO
      * @return Reply
      */
-    Reply newApp(LoginInfo info, App dto);
+    Reply newApp(LoginInfo info, Application dto);
 
     /**
      * 编辑应用
@@ -47,7 +47,7 @@ public interface AppService {
      * @param dto  应用DTO
      * @return Reply
      */
-    Reply editApp(LoginInfo info, App dto);
+    Reply editApp(LoginInfo info, Application dto);
 
     /**
      * 删除应用

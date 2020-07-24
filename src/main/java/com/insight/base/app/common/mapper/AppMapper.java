@@ -3,10 +3,10 @@ package com.insight.base.app.common.mapper;
 import com.insight.base.app.common.dto.AppListDto;
 import com.insight.base.app.common.dto.FuncListDto;
 import com.insight.base.app.common.dto.NavListDto;
-import com.insight.base.app.common.entity.App;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
 import com.insight.utils.common.JsonTypeHandler;
+import com.insight.utils.pojo.Application;
 import com.insight.utils.pojo.FuncInfo;
 import com.insight.utils.pojo.ModuleInfo;
 import org.apache.ibatis.annotations.*;
@@ -27,7 +27,7 @@ public interface AppMapper {
      * @param key 查询关键词
      * @return 应用列表
      */
-    @Select("<script>select id, `index`, name, alias, domain, permit_life, token_life, is_signin_one, is_auto_refresh from ibs_application " +
+    @Select("<script>select id, `index`, name, alias, domain, permit_life, token_life, is_verify_source, is_signin_one, is_auto_refresh from ibs_application " +
             "<if test = 'key!=null'>where `name` like concat('%',#{key},'%') or alias = #{key} or domain like concat('%',#{key},'%') </if>" +
             "order by `index`</script>")
     List<AppListDto> getApps(@Param("key") String key);
@@ -39,16 +39,18 @@ public interface AppMapper {
      * @return 应用详情
      */
     @Select("select * from ibs_application where id = #{id};")
-    App getApp(String id);
+    Application getApp(String id);
 
     /**
      * 新增应用
      *
      * @param app 应用DTO
      */
-    @Insert("insert ibs_application (id, `index`, `name`, alias, icon, domain, permit_life, token_life, is_signin_one, is_auto_refresh, creator, creator_id, created_time) values " +
-            "(#{id}, #{index}, #{name}, #{alias}, #{icon}, #{domain}, #{permitLife}, #{tokenLife}, #{isSigninOne}, #{isAutoRefresh}, #{creator}, #{creatorId}, #{createdTime});")
-    void addApp(App app);
+    @Insert("insert ibs_application (id, `index`, `name`, alias, icon, domain, permit_life, token_life, " +
+            "is_verify_source, is_signin_one, is_auto_refresh, creator, creator_id, created_time) " +
+            "values (#{id}, #{index}, #{name}, #{alias}, #{icon}, #{domain}, #{permitLife}, #{tokenLife}, " +
+            "#{isVerifySource}, #{isSigninOne}, #{isAutoRefresh}, #{creator}, #{creatorId}, #{createdTime});")
+    void addApp(Application app);
 
     /**
      * 更新应用
@@ -56,8 +58,9 @@ public interface AppMapper {
      * @param app 应用DTO
      */
     @Update("update ibs_application set `index` = #{index}, `name` = #{name}, alias = #{alias}, icon = #{icon}, domain = #{domain}, " +
-            "permit_life = #{permitLife}, token_life = #{tokenLife}, is_signin_one = #{isSigninOne}, is_auto_refresh = #{isAutoRefresh} where id = #{id};")
-    void updateApp(App app);
+            "permit_life = #{permitLife}, token_life = #{tokenLife}, is_verify_source = #{isVerifySource}, " +
+            "is_signin_one = #{isSigninOne}, is_auto_refresh = #{isAutoRefresh} where id = #{id};")
+    void updateApp(Application app);
 
     /**
      * 删除应用
