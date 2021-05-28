@@ -1,21 +1,18 @@
 package com.insight.base.app.common.dto;
 
-import com.insight.utils.Json;
-
-import java.io.Serializable;
+import com.insight.utils.pojo.BaseXo;
 
 /**
  * @author 宣炳刚
  * @date 2019/12/4
  * @remark 角色列表DTO
  */
-public class AppListDto implements Serializable {
-    private static final long serialVersionUID = -1L;
+public class AppListDto extends BaseXo {
 
     /**
      * 应用ID
      */
-    private String id;
+    private Long id;
 
     /**
      * 序号
@@ -57,11 +54,11 @@ public class AppListDto implements Serializable {
      */
     private Boolean isAutoRefresh;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -127,10 +124,5 @@ public class AppListDto implements Serializable {
 
     public void setAutoRefresh(Boolean autoRefresh) {
         isAutoRefresh = autoRefresh;
-    }
-
-    @Override
-    public String toString() {
-        return Json.toJson(this);
     }
 }

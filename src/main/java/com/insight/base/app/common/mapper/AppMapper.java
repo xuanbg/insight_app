@@ -39,7 +39,7 @@ public interface AppMapper {
      * @return 应用详情
      */
     @Select("select * from ibs_application where id = #{id};")
-    Application getApp(String id);
+    Application getApp(Long id);
 
     /**
      * 新增应用
@@ -69,7 +69,7 @@ public interface AppMapper {
      */
     @Delete("delete a, n, f, p from ibs_application a left join ibs_navigator n on n.app_id = a.id left join ibs_function f on f.nav_id = n.id " +
             "left join ibr_role_func_permit p on p.function_id = f.id where a.id = #{id};")
-    void deleteApp(String id);
+    void deleteApp(Long id);
 
     /**
      * 获取导航列表
@@ -79,7 +79,7 @@ public interface AppMapper {
      */
     @Results({@Result(property = "moduleInfo", column = "module_info", javaType = ModuleInfo.class, typeHandler = JsonTypeHandler.class)})
     @Select("select id, parent_id, app_id, type, `index`, `name`, module_info from ibs_navigator where app_id = #{appId} order by type, `index`;")
-    List<NavListDto> getNavigators(String appId);
+    List<NavListDto> getNavigators(Long appId);
 
     /**
      * 获取导航详情
@@ -89,7 +89,7 @@ public interface AppMapper {
      */
     @Results({@Result(property = "moduleInfo", column = "module_info", javaType = ModuleInfo.class, typeHandler = JsonTypeHandler.class)})
     @Select("select * from ibs_navigator where id = #{id};")
-    Navigator getNavigator(String id);
+    Navigator getNavigator(Long id);
 
     /**
      * 新增导航
@@ -117,7 +117,7 @@ public interface AppMapper {
      */
     @Delete("delete n, m, f, p from ibs_navigator n left join ibs_navigator m on m.parent_id = n.id left join ibs_function f on f.nav_id = m.id " +
             "left join ibr_role_func_permit p on p.function_id = f.id where n.id = #{id};")
-    void deleteNavigator(String id);
+    void deleteNavigator(Long id);
 
     /**
      * 删除二级导航
@@ -126,7 +126,7 @@ public interface AppMapper {
      */
     @Delete("delete m, f, p from ibs_navigator m left join ibs_function f on f.nav_id = m.id " +
             "left join ibr_role_func_permit p on p.function_id = f.id where m.id = #{id};")
-    void deleteModule(String id);
+    void deleteModule(Long id);
 
     /**
      * 获取功能列表
@@ -136,7 +136,7 @@ public interface AppMapper {
      */
     @Results({@Result(property = "funcInfo", column = "func_info", javaType = FuncInfo.class, typeHandler = JsonTypeHandler.class)})
     @Select("select id, nav_id, type, `index`, `name`, auth_codes, func_info from ibs_function where nav_id = #{navId} order by `index`;")
-    List<FuncListDto> getFunctions(String navId);
+    List<FuncListDto> getFunctions(Long navId);
 
     /**
      * 获取功能详情
@@ -146,7 +146,7 @@ public interface AppMapper {
      */
     @Results({@Result(property = "funcInfo", column = "func_info", javaType = FuncInfo.class, typeHandler = JsonTypeHandler.class)})
     @Select("select * from ibs_function where id = #{id};")
-    Function getFunction(String id);
+    Function getFunction(Long id);
 
     /**
      * 新增功能
@@ -173,5 +173,5 @@ public interface AppMapper {
      * @param id 功能ID
      */
     @Delete("delete f, p from ibs_function f left join ibr_role_func_permit p on p.function_id = f.id where f.id = #{id};")
-    void deleteFunction(String id);
+    void deleteFunction(Long id);
 }

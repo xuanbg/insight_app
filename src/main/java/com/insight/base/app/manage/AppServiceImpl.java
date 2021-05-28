@@ -11,11 +11,8 @@ import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
 import com.insight.base.app.common.mapper.AppMapper;
 import com.insight.utils.ReplyHelper;
-import com.insight.utils.Util;
-import com.insight.utils.pojo.Application;
-import com.insight.utils.pojo.LoginInfo;
-import com.insight.utils.pojo.OperateType;
-import com.insight.utils.pojo.Reply;
+import com.insight.utils.SnowflakeCreator;
+import com.insight.utils.pojo.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,16 +26,19 @@ import java.util.List;
 @Service
 public class AppServiceImpl implements AppService {
     private static final String BUSINESS = "资源管理";
+    private final SnowflakeCreator creator;
     private final AppMapper mapper;
     private final LogServiceClient client;
 
     /**
      * 构造方法
      *
-     * @param mapper AppMapper
-     * @param client   LogServiceClient
+     * @param creator 雪花算法ID生成器
+     * @param mapper  AppMapper
+     * @param client  LogServiceClient
      */
-    public AppServiceImpl(AppMapper mapper, LogServiceClient client) {
+    public AppServiceImpl(SnowflakeCreator creator, AppMapper mapper, LogServiceClient client) {
+        this.creator = creator;
         this.mapper = mapper;
         this.client = client;
     }
@@ -46,15 +46,13 @@ public class AppServiceImpl implements AppService {
     /**
      * 查询应用列表
      *
-     * @param keyword 查询关键词
-     * @param page    分页页码
-     * @param size    每页记录数
+     * @param search 查询实体类
      * @return Reply
      */
     @Override
-    public Reply getApps(String keyword, int page, int size) {
-        PageHelper.startPage(page, size);
-        List<AppListDto> apps = mapper.getApps(keyword);
+    public Reply getApps(SearchDto search) {
+        PageHelper.startPage(search.getPage(), search.getSize());
+        List<AppListDto> apps = mapper.getApps(search.getKeyword());
         PageInfo<AppListDto> pageInfo = new PageInfo<>(apps);
 
         return ReplyHelper.success(apps, pageInfo.getTotal());
@@ -67,7 +65,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getApp(String id) {
+    public Reply getApp(Long id) {
         Application app = mapper.getApp(id);
         if (app == null) {
             return ReplyHelper.fail("ID不存在,未读取数据");
@@ -85,7 +83,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply newApp(LoginInfo info, Application dto) {
-        String id = Util.uuid();
+        Long id = creator.nextId(0);
         dto.setId(id);
 
         Long permitLife = dto.getPermitLife();
@@ -125,7 +123,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply editApp(LoginInfo info, Application dto) {
-        String id = dto.getId();
+        Long id = dto.getId();
         Application app = mapper.getApp(id);
         if (app == null) {
             return ReplyHelper.fail("ID不存在,未更新数据");
@@ -145,7 +143,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply deleteApp(LoginInfo info, String id) {
+    public Reply deleteApp(LoginInfo info, Long id) {
         Application app = mapper.getApp(id);
         if (app == null) {
             return ReplyHelper.fail("ID不存在,未删除数据");
@@ -164,7 +162,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getNavigators(String appId) {
+    public Reply getNavigators(Long appId) {
         Application app = mapper.getApp(appId);
         if (app == null) {
             return ReplyHelper.fail("ID不存在,未读取数据");
@@ -182,7 +180,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getNavigator(String id) {
+    public Reply getNavigator(Long id) {
         Navigator navigator = mapper.getNavigator(id);
         if (navigator == null) {
             return ReplyHelper.fail("ID不存在,未读取数据");
@@ -200,7 +198,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply newNavigator(LoginInfo info, Navigator dto) {
-        String id = Util.uuid();
+        Long id = creator.nextId(1);
         dto.setId(id);
         dto.setCreator(info.getUserName());
         dto.setCreatorId(info.getUserId());
@@ -221,7 +219,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply editNavigator(LoginInfo info, Navigator dto) {
-        String id = dto.getId();
+        Long id = dto.getId();
         Navigator navigator = mapper.getNavigator(id);
         if (navigator == null) {
             return ReplyHelper.fail("ID不存在,未更新数据");
@@ -241,7 +239,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply deleteNavigator(LoginInfo info, String id) {
+    public Reply deleteNavigator(LoginInfo info, Long id) {
         Navigator navigator = mapper.getNavigator(id);
         if (navigator == null) {
             return ReplyHelper.fail("ID不存在,未删除数据");
@@ -265,7 +263,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getFunctions(String navId) {
+    public Reply getFunctions(Long navId) {
         Navigator navigator = mapper.getNavigator(navId);
         if (navigator == null) {
             return ReplyHelper.fail("ID不存在,未读取数据");
@@ -283,7 +281,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getFunction(String id) {
+    public Reply getFunction(Long id) {
         Function function = mapper.getFunction(id);
         if (function == null) {
             return ReplyHelper.fail("ID不存在,未读取数据");
@@ -301,7 +299,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply newFunction(LoginInfo info, Function dto) {
-        String id = Util.uuid();
+        Long id = creator.nextId(1);
         dto.setId(id);
         dto.setCreator(info.getUserName());
         dto.setCreatorId(info.getUserId());
@@ -322,7 +320,7 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply editFunction(LoginInfo info, Function dto) {
-        String id = dto.getId();
+        Long id = dto.getId();
         Function function = mapper.getFunction(id);
         if (function == null) {
             return ReplyHelper.fail("ID不存在,未更新数据");
@@ -342,7 +340,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply deleteFunction(LoginInfo info, String id) {
+    public Reply deleteFunction(LoginInfo info, Long id) {
         Function function = mapper.getFunction(id);
         if (function == null) {
             return ReplyHelper.fail("ID不存在,未删除数据");
@@ -357,14 +355,12 @@ public class AppServiceImpl implements AppService {
     /**
      * 获取日志列表
      *
-     * @param keyword 查询关键词
-     * @param page    分页页码
-     * @param size    每页记录数
+     * @param search 查询实体类
      * @return Reply
      */
     @Override
-    public Reply getAppLogs(String keyword, int page, int size) {
-        return client.getLogs(BUSINESS, keyword, page, size);
+    public Reply getAppLogs(SearchDto search) {
+        return client.getLogs(BUSINESS, search.getKeyword(), search.getPage(), search.getSize());
     }
 
     /**
@@ -374,7 +370,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getAppLog(String id) {
+    public Reply getAppLog(Long id) {
         return client.getLog(id);
     }
 }

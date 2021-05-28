@@ -5,6 +5,7 @@ import com.insight.base.app.common.entity.Navigator;
 import com.insight.utils.pojo.Application;
 import com.insight.utils.pojo.LoginInfo;
 import com.insight.utils.pojo.Reply;
+import com.insight.utils.pojo.SearchDto;
 
 /**
  * @author 宣炳刚
@@ -16,12 +17,10 @@ public interface AppService {
     /**
      * 查询应用列表
      *
-     * @param keyword 查询关键词
-     * @param page    分页页码
-     * @param size    每页记录数
+     * @param search 查询实体类
      * @return Reply
      */
-    Reply getApps(String keyword, int page, int size);
+    Reply getApps(SearchDto search);
 
     /**
      * 获取应用详情
@@ -29,7 +28,7 @@ public interface AppService {
      * @param id 应用ID
      * @return Reply
      */
-    Reply getApp(String id);
+    Reply getApp(Long id);
 
     /**
      * 新增应用
@@ -56,7 +55,7 @@ public interface AppService {
      * @param id   应用ID
      * @return Reply
      */
-    Reply deleteApp(LoginInfo info, String id);
+    Reply deleteApp(LoginInfo info, Long id);
 
     /**
      * 获取导航列表
@@ -64,7 +63,7 @@ public interface AppService {
      * @param appId 应用ID
      * @return Reply
      */
-    Reply getNavigators(String appId);
+    Reply getNavigators(Long appId);
 
     /**
      * 获取导航详情
@@ -72,7 +71,7 @@ public interface AppService {
      * @param id 导航ID
      * @return Reply
      */
-    Reply getNavigator(String id);
+    Reply getNavigator(Long id);
 
     /**
      * 新增导航
@@ -99,7 +98,7 @@ public interface AppService {
      * @param id   导航ID
      * @return Reply
      */
-    Reply deleteNavigator(LoginInfo info, String id);
+    Reply deleteNavigator(LoginInfo info, Long id);
 
     /**
      * 获取功能列表
@@ -107,7 +106,7 @@ public interface AppService {
      * @param navId 导航ID
      * @return Reply
      */
-    Reply getFunctions(String navId);
+    Reply getFunctions(Long navId);
 
     /**
      * 获取功能详情
@@ -115,7 +114,7 @@ public interface AppService {
      * @param id 功能ID
      * @return Reply
      */
-    Reply getFunction(String id);
+    Reply getFunction(Long id);
 
     /**
      * 新增功能
@@ -142,17 +141,15 @@ public interface AppService {
      * @param id   功能ID
      * @return Reply
      */
-    Reply deleteFunction(LoginInfo info, String id);
+    Reply deleteFunction(LoginInfo info, Long id);
 
     /**
      * 获取日志列表
      *
-     * @param keyword 查询关键词
-     * @param page    分页页码
-     * @param size    每页记录数
+     * @param search 查询实体类
      * @return Reply
      */
-    Reply getAppLogs(String keyword, int page, int size);
+    Reply getAppLogs(SearchDto search);
 
     /**
      * 获取日志详情
@@ -160,5 +157,5 @@ public interface AppService {
      * @param id 日志ID
      * @return Reply
      */
-    Reply getAppLog(String id);
+    Reply getAppLog(Long id);
 }

@@ -7,6 +7,7 @@ import com.insight.utils.ReplyHelper;
 import com.insight.utils.pojo.Application;
 import com.insight.utils.pojo.LoginInfo;
 import com.insight.utils.pojo.Reply;
+import com.insight.utils.pojo.SearchDto;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,14 +35,12 @@ public class AppController {
     /**
      * 查询应用列表
      *
-     * @param keyword 查询关键词
-     * @param page    分页页码
-     * @param size    每页记录数
+     * @param search 查询实体类
      * @return Reply
      */
     @GetMapping("/v1.0/apps")
-    public Reply getApps(@RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "20") int size) {
-        return service.getApps(keyword, page, size);
+    public Reply getApps(SearchDto search) {
+        return service.getApps(search);
     }
 
     /**
@@ -51,8 +50,8 @@ public class AppController {
      * @return Reply
      */
     @GetMapping("/v1.0/apps/{id}")
-    public Reply getApp(@PathVariable String id) {
-        if (id == null || id.isEmpty()) {
+    public Reply getApp(@PathVariable Long id) {
+        if (id == null) {
             return ReplyHelper.invalidParam();
         }
 
@@ -95,7 +94,7 @@ public class AppController {
      * @return Reply
      */
     @DeleteMapping("/v1.0/apps")
-    public Reply deleteApp(@RequestHeader("loginInfo") String info, @RequestBody String id) {
+    public Reply deleteApp(@RequestHeader("loginInfo") String info, @RequestBody Long id) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
 
         return service.deleteApp(loginInfo, id);
@@ -108,8 +107,8 @@ public class AppController {
      * @return Reply
      */
     @GetMapping("/v1.0/apps/{id}/navigators")
-    public Reply getNavigators(@PathVariable String id) {
-        if (id == null || id.isEmpty()) {
+    public Reply getNavigators(@PathVariable Long id) {
+        if (id == null) {
             return ReplyHelper.invalidParam();
         }
 
@@ -123,8 +122,8 @@ public class AppController {
      * @return Reply
      */
     @GetMapping("/v1.0/navigators/{id}")
-    public Reply getNavigator(@PathVariable String id) {
-        if (id == null || id.isEmpty()) {
+    public Reply getNavigator(@PathVariable Long id) {
+        if (id == null) {
             return ReplyHelper.invalidParam();
         }
 
@@ -167,7 +166,7 @@ public class AppController {
      * @return Reply
      */
     @DeleteMapping("/v1.0/navigators")
-    public Reply deleteNavigator(@RequestHeader("loginInfo") String info, @RequestBody String id) {
+    public Reply deleteNavigator(@RequestHeader("loginInfo") String info, @RequestBody Long id) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
 
         return service.deleteNavigator(loginInfo, id);
@@ -180,8 +179,8 @@ public class AppController {
      * @return Reply
      */
     @GetMapping("/v1.0/navigators/{id}/functions")
-    public Reply getFunctions(@PathVariable String id) {
-        if (id == null || id.isEmpty()) {
+    public Reply getFunctions(@PathVariable Long id) {
+        if (id == null) {
             return ReplyHelper.invalidParam();
         }
 
@@ -195,8 +194,8 @@ public class AppController {
      * @return Reply
      */
     @GetMapping("/v1.0/functions/{id}")
-    public Reply getFunction(@PathVariable String id) {
-        if (id == null || id.isEmpty()) {
+    public Reply getFunction(@PathVariable Long id) {
+        if (id == null) {
             return ReplyHelper.invalidParam();
         }
 
@@ -239,7 +238,7 @@ public class AppController {
      * @return Reply
      */
     @DeleteMapping("/v1.0/functions")
-    public Reply deleteFunction(@RequestHeader("loginInfo") String info, @RequestBody String id) {
+    public Reply deleteFunction(@RequestHeader("loginInfo") String info, @RequestBody Long id) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
 
         return service.deleteFunction(loginInfo, id);
@@ -248,14 +247,12 @@ public class AppController {
     /**
      * 获取日志列表
      *
-     * @param keyword 查询关键词
-     * @param page    分页页码
-     * @param size    每页记录数
+     * @param search 查询实体类
      * @return Reply
      */
     @GetMapping("/v1.0/apps/logs")
-    public Reply getAppLogs(@RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "20") int size) {
-        return service.getAppLogs(keyword, page, size);
+    public Reply getAppLogs(SearchDto search) {
+        return service.getAppLogs(search);
     }
 
     /**
@@ -265,8 +262,8 @@ public class AppController {
      * @return Reply
      */
     @GetMapping("/v1.0/apps/logs/{id}")
-    public Reply getAppLog(@PathVariable String id) {
-        if (id == null || id.isEmpty()) {
+    public Reply getAppLog(@PathVariable Long id) {
+        if (id == null) {
             return ReplyHelper.invalidParam();
         }
 

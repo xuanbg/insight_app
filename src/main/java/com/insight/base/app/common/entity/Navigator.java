@@ -1,9 +1,8 @@
 package com.insight.base.app.common.entity;
 
-import com.insight.utils.Json;
+import com.insight.utils.pojo.BaseXo;
 import com.insight.utils.pojo.ModuleInfo;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -11,23 +10,22 @@ import java.time.LocalDateTime;
  * @date 2019/12/12
  * @remark 导航实体类
  */
-public class Navigator implements Serializable {
-    private static final long serialVersionUID = -1L;
+public class Navigator extends BaseXo {
 
     /**
      * 导航ID
      */
-    private String id;
+    private Long id;
 
     /**
      * 父级导航ID
      */
-    private String parentId;
+    private Long parentId;
 
     /**
      * 应用ID
      */
-    private String appId;
+    private Long appId;
 
     /**
      * 导航级别
@@ -57,34 +55,34 @@ public class Navigator implements Serializable {
     /**
      * 创建人ID
      */
-    private String creatorId;
+    private Long creatorId;
 
     /**
      * 创建时间
      */
     private LocalDateTime createdTime;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
-    public String getAppId() {
+    public Long getAppId() {
         return appId;
     }
 
-    public void setAppId(String appId) {
+    public void setAppId(Long appId) {
         this.appId = appId;
     }
 
@@ -128,11 +126,11 @@ public class Navigator implements Serializable {
         this.creator = creator;
     }
 
-    public String getCreatorId() {
+    public Long getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(String creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
 
@@ -142,10 +140,5 @@ public class Navigator implements Serializable {
 
     public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
-    }
-
-    @Override
-    public String toString() {
-        return Json.toJson(this);
     }
 }

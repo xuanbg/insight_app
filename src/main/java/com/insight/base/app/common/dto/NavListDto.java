@@ -1,32 +1,29 @@
 package com.insight.base.app.common.dto;
 
-import com.insight.utils.Json;
+import com.insight.utils.pojo.BaseXo;
 import com.insight.utils.pojo.ModuleInfo;
-
-import java.io.Serializable;
 
 /**
  * @author 宣炳刚
  * @date 2019/12/12
  * @remark 导航列表实体类
  */
-public class NavListDto implements Serializable {
-    private static final long serialVersionUID = -1L;
+public class NavListDto extends BaseXo {
 
     /**
      * 导航ID
      */
-    private String id;
+    private Long id;
 
     /**
      * 父级导航ID
      */
-    private String parentId;
+    private Long parentId;
 
     /**
      * 应用ID
      */
-    private String appId;
+    private Long appId;
 
     /**
      * 导航级别
@@ -48,27 +45,27 @@ public class NavListDto implements Serializable {
      */
     private ModuleInfo moduleInfo;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
-    public String getAppId() {
+    public Long getAppId() {
         return appId;
     }
 
-    public void setAppId(String appId) {
+    public void setAppId(Long appId) {
         this.appId = appId;
     }
 
@@ -102,10 +99,5 @@ public class NavListDto implements Serializable {
 
     public void setModuleInfo(ModuleInfo moduleInfo) {
         this.moduleInfo = moduleInfo;
-    }
-
-    @Override
-    public String toString() {
-        return Json.toJson(this);
     }
 }

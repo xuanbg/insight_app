@@ -1,27 +1,24 @@
 package com.insight.base.app.common.dto;
 
-import com.insight.utils.Json;
+import com.insight.utils.pojo.BaseXo;
 import com.insight.utils.pojo.FuncInfo;
-
-import java.io.Serializable;
 
 /**
  * @author 宣炳刚
  * @date 2019/12/12
  * @remark 功能列表类
  */
-public class FuncListDto implements Serializable {
-    private static final long serialVersionUID = -1L;
+public class FuncListDto extends BaseXo {
 
     /**
      * 功能ID
      */
-    private String id;
+    private Long id;
 
     /**
      * 导航(末级模块)ID
      */
-    private String navId;
+    private Long navId;
 
     /**
      * 功能类型 0:全局功能;1:数据项功能;2:其他功能
@@ -48,19 +45,19 @@ public class FuncListDto implements Serializable {
      */
     private FuncInfo funcInfo;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNavId() {
+    public Long getNavId() {
         return navId;
     }
 
-    public void setNavId(String navId) {
+    public void setNavId(Long navId) {
         this.navId = navId;
     }
 
@@ -102,10 +99,5 @@ public class FuncListDto implements Serializable {
 
     public void setFuncInfo(FuncInfo funcInfo) {
         this.funcInfo = funcInfo;
-    }
-
-    @Override
-    public String toString() {
-        return Json.toJson(this);
     }
 }

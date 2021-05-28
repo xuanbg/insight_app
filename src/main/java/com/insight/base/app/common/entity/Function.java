@@ -1,9 +1,8 @@
 package com.insight.base.app.common.entity;
 
-import com.insight.utils.Json;
+import com.insight.utils.pojo.BaseXo;
 import com.insight.utils.pojo.FuncInfo;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -11,18 +10,17 @@ import java.time.LocalDateTime;
  * @date 2019/12/12
  * @remark 功能实体类
  */
-public class Function implements Serializable {
-    private static final long serialVersionUID = -1L;
+public class Function extends BaseXo {
 
     /**
      * 功能ID
      */
-    private String id;
+    private Long id;
 
     /**
      * 导航(末级模块)ID
      */
-    private String navId;
+    private Long navId;
 
     /**
      * 功能类型 0:全局功能;1:数据项功能;2:其他功能
@@ -57,26 +55,26 @@ public class Function implements Serializable {
     /**
      * 创建人ID
      */
-    private String creatorId;
+    private Long creatorId;
 
     /**
      * 创建时间
      */
     private LocalDateTime createdTime;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNavId() {
+    public Long getNavId() {
         return navId;
     }
 
-    public void setNavId(String navId) {
+    public void setNavId(Long navId) {
         this.navId = navId;
     }
 
@@ -128,11 +126,11 @@ public class Function implements Serializable {
         this.creator = creator;
     }
 
-    public String getCreatorId() {
+    public Long getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(String creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
 
@@ -142,10 +140,5 @@ public class Function implements Serializable {
 
     public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
-    }
-
-    @Override
-    public String toString() {
-        return Json.toJson(this);
     }
 }
