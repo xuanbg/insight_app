@@ -3,7 +3,6 @@ package com.insight.base.app.manage;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
 import com.insight.utils.Json;
-import com.insight.utils.ReplyHelper;
 import com.insight.utils.pojo.Application;
 import com.insight.utils.pojo.LoginInfo;
 import com.insight.utils.pojo.Reply;
@@ -51,10 +50,6 @@ public class AppController {
      */
     @GetMapping("/v1.0/apps/{id}")
     public Reply getApp(@PathVariable Long id) {
-        if (id == null) {
-            return ReplyHelper.invalidParam();
-        }
-
         return service.getApp(id);
     }
 
@@ -76,12 +71,14 @@ public class AppController {
      * 编辑应用
      *
      * @param info 用户关键信息
+     * @param id   应用ID
      * @param dto  应用DTO
      * @return Reply
      */
-    @PutMapping("/v1.0/apps")
-    public Reply editApp(@RequestHeader("loginInfo") String info, @Valid @RequestBody Application dto) {
+    @PutMapping("/v1.0/apps/{id}")
+    public Reply editApp(@RequestHeader("loginInfo") String info, @PathVariable Long id, @Valid @RequestBody Application dto) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
+        dto.setId(id);
 
         return service.editApp(loginInfo, dto);
     }
@@ -93,8 +90,8 @@ public class AppController {
      * @param id   应用ID
      * @return Reply
      */
-    @DeleteMapping("/v1.0/apps")
-    public Reply deleteApp(@RequestHeader("loginInfo") String info, @RequestBody Long id) {
+    @DeleteMapping("/v1.0/apps/{id}")
+    public Reply deleteApp(@RequestHeader("loginInfo") String info, @PathVariable Long id) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
 
         return service.deleteApp(loginInfo, id);
@@ -108,10 +105,6 @@ public class AppController {
      */
     @GetMapping("/v1.0/apps/{id}/navigators")
     public Reply getNavigators(@PathVariable Long id) {
-        if (id == null) {
-            return ReplyHelper.invalidParam();
-        }
-
         return service.getNavigators(id);
     }
 
@@ -123,10 +116,6 @@ public class AppController {
      */
     @GetMapping("/v1.0/navigators/{id}")
     public Reply getNavigator(@PathVariable Long id) {
-        if (id == null) {
-            return ReplyHelper.invalidParam();
-        }
-
         return service.getNavigator(id);
     }
 
@@ -148,12 +137,14 @@ public class AppController {
      * 编辑导航
      *
      * @param info 用户关键信息
+     * @param id   导航ID
      * @param dto  导航DTO
      * @return Reply
      */
-    @PutMapping("/v1.0/navigators")
-    public Reply editNavigator(@RequestHeader("loginInfo") String info, @Valid @RequestBody Navigator dto) {
+    @PutMapping("/v1.0/navigators/{id}")
+    public Reply editNavigator(@RequestHeader("loginInfo") String info, @PathVariable Long id, @Valid @RequestBody Navigator dto) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
+        dto.setId(id);
 
         return service.editNavigator(loginInfo, dto);
     }
@@ -165,8 +156,8 @@ public class AppController {
      * @param id   导航ID
      * @return Reply
      */
-    @DeleteMapping("/v1.0/navigators")
-    public Reply deleteNavigator(@RequestHeader("loginInfo") String info, @RequestBody Long id) {
+    @DeleteMapping("/v1.0/navigators/{id}")
+    public Reply deleteNavigator(@RequestHeader("loginInfo") String info, @PathVariable Long id) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
 
         return service.deleteNavigator(loginInfo, id);
@@ -180,10 +171,6 @@ public class AppController {
      */
     @GetMapping("/v1.0/navigators/{id}/functions")
     public Reply getFunctions(@PathVariable Long id) {
-        if (id == null) {
-            return ReplyHelper.invalidParam();
-        }
-
         return service.getFunctions(id);
     }
 
@@ -195,10 +182,6 @@ public class AppController {
      */
     @GetMapping("/v1.0/functions/{id}")
     public Reply getFunction(@PathVariable Long id) {
-        if (id == null) {
-            return ReplyHelper.invalidParam();
-        }
-
         return service.getFunction(id);
     }
 
@@ -220,12 +203,14 @@ public class AppController {
      * 编辑功能
      *
      * @param info 用户关键信息
+     * @param id   功能ID
      * @param dto  功能DTO
      * @return Reply
      */
-    @PutMapping("/v1.0/functions")
-    public Reply editFunction(@RequestHeader("loginInfo") String info, @Valid @RequestBody Function dto) {
+    @PutMapping("/v1.0/functions/{id}")
+    public Reply editFunction(@RequestHeader("loginInfo") String info, @PathVariable Long id, @Valid @RequestBody Function dto) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
+        dto.setId(id);
 
         return service.editFunction(loginInfo, dto);
     }
@@ -237,8 +222,8 @@ public class AppController {
      * @param id   功能ID
      * @return Reply
      */
-    @DeleteMapping("/v1.0/functions")
-    public Reply deleteFunction(@RequestHeader("loginInfo") String info, @RequestBody Long id) {
+    @DeleteMapping("/v1.0/functions/{id}")
+    public Reply deleteFunction(@RequestHeader("loginInfo") String info, @PathVariable Long id) {
         LoginInfo loginInfo = Json.toBeanFromBase64(info, LoginInfo.class);
 
         return service.deleteFunction(loginInfo, id);
@@ -263,10 +248,6 @@ public class AppController {
      */
     @GetMapping("/v1.0/apps/logs/{id}")
     public Reply getAppLog(@PathVariable Long id) {
-        if (id == null) {
-            return ReplyHelper.invalidParam();
-        }
-
         return service.getAppLog(id);
     }
 }
