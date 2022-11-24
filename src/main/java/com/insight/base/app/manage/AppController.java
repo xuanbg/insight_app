@@ -3,10 +3,10 @@ package com.insight.base.app.manage;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
 import com.insight.utils.Json;
-import com.insight.utils.pojo.Application;
-import com.insight.utils.pojo.LoginInfo;
-import com.insight.utils.pojo.Reply;
-import com.insight.utils.pojo.SearchDto;
+import com.insight.utils.pojo.app.Application;
+import com.insight.utils.pojo.auth.LoginInfo;
+import com.insight.utils.pojo.base.Reply;
+import com.insight.utils.pojo.base.Search;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,7 +38,7 @@ public class AppController {
      * @return Reply
      */
     @GetMapping("/v1.0/apps")
-    public Reply getApps(SearchDto search) {
+    public Reply getApps(Search search) {
         return service.getApps(search);
     }
 
@@ -236,7 +236,7 @@ public class AppController {
      * @return Reply
      */
     @GetMapping("/v1.0/apps/logs")
-    public Reply getAppLogs(SearchDto search) {
+    public Reply getAppLogs(Search search) {
         return service.getAppLogs(search);
     }
 

@@ -6,9 +6,10 @@ import com.insight.base.app.common.dto.NavListDto;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
 import com.insight.utils.common.JsonTypeHandler;
-import com.insight.utils.pojo.Application;
-import com.insight.utils.pojo.FuncInfo;
-import com.insight.utils.pojo.ModuleInfo;
+import com.insight.utils.pojo.app.Application;
+import com.insight.utils.pojo.app.FuncInfo;
+import com.insight.utils.pojo.app.ModuleInfo;
+import com.insight.utils.pojo.base.Search;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -24,13 +25,13 @@ public interface AppMapper {
     /**
      * 获取应用列表
      *
-     * @param key 查询关键词
+     * @param search 查询实体类
      * @return 应用列表
      */
     @Select("<script>select id, `index`, name, alias, domain, permit_life, token_life, is_verify_source, is_signin_one, is_auto_refresh from ibs_application " +
-            "<if test = 'key!=null'>where `name` like concat('%',#{key},'%') or alias = #{key} or domain like concat('%',#{key},'%') </if>" +
-            "order by `index`</script>")
-    List<AppListDto> getApps(@Param("key") String key);
+            "<if test = 'keyword!=null'>where `name` like concat('%',#{keyword},'%') or alias = #{keyword} or domain like concat('%',#{keyword},'%') </if>" +
+            "</script>")
+    List<AppListDto> getApps(Search search);
 
     /**
      * 获取应用详情

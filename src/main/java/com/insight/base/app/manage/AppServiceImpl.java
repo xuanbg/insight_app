@@ -1,10 +1,8 @@
 package com.insight.base.app.manage;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.insight.base.app.common.client.LogClient;
 import com.insight.base.app.common.client.LogServiceClient;
-import com.insight.base.app.common.dto.AppListDto;
 import com.insight.base.app.common.dto.FuncListDto;
 import com.insight.base.app.common.dto.NavListDto;
 import com.insight.base.app.common.entity.Function;
@@ -12,7 +10,11 @@ import com.insight.base.app.common.entity.Navigator;
 import com.insight.base.app.common.mapper.AppMapper;
 import com.insight.utils.ReplyHelper;
 import com.insight.utils.SnowflakeCreator;
-import com.insight.utils.pojo.*;
+import com.insight.utils.pojo.OperateType;
+import com.insight.utils.pojo.app.Application;
+import com.insight.utils.pojo.auth.LoginInfo;
+import com.insight.utils.pojo.base.Reply;
+import com.insight.utils.pojo.base.Search;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -50,12 +52,12 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getApps(SearchDto search) {
-        PageHelper.startPage(search.getPage(), search.getSize());
-        List<AppListDto> apps = mapper.getApps(search.getKeyword());
-        PageInfo<AppListDto> pageInfo = new PageInfo<>(apps);
+    public Reply getApps(Search search) {
+        var page = PageHelper.startPage(search.getPageNum(), search.getPageSize())
+                .setOrderBy(search.getOrderBy()).doSelectPage(() -> mapper.getApps(search));
 
-        return ReplyHelper.success(apps, pageInfo.getTotal());
+        var total = page.getTotal();
+        return total > 0 ? ReplyHelper.success(page.getResult(), total) : ReplyHelper.resultIsEmpty();
     }
 
     /**
@@ -359,8 +361,8 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getAppLogs(SearchDto search) {
-        return client.getLogs(BUSINESS, search.getKeyword(), search.getPage(), search.getSize());
+    public Reply getAppLogs(Search search) {
+        return client.getLogs(BUSINESS, search.getKeyword(), search.getPageNum(), search.getPageSize());
     }
 
     /**

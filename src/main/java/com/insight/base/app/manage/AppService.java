@@ -2,10 +2,10 @@ package com.insight.base.app.manage;
 
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
-import com.insight.utils.pojo.Application;
-import com.insight.utils.pojo.LoginInfo;
-import com.insight.utils.pojo.Reply;
-import com.insight.utils.pojo.SearchDto;
+import com.insight.utils.pojo.app.Application;
+import com.insight.utils.pojo.auth.LoginInfo;
+import com.insight.utils.pojo.base.Reply;
+import com.insight.utils.pojo.base.Search;
 
 /**
  * @author 宣炳刚
@@ -20,7 +20,7 @@ public interface AppService {
      * @param search 查询实体类
      * @return Reply
      */
-    Reply getApps(SearchDto search);
+    Reply getApps(Search search);
 
     /**
      * 获取应用详情
@@ -149,7 +149,7 @@ public interface AppService {
      * @param search 查询实体类
      * @return Reply
      */
-    Reply getAppLogs(SearchDto search);
+    Reply getAppLogs(Search search);
 
     /**
      * 获取日志详情

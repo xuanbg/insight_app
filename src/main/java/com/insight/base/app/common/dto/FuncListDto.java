@@ -1,7 +1,7 @@
 package com.insight.base.app.common.dto;
 
-import com.insight.utils.pojo.BaseXo;
-import com.insight.utils.pojo.FuncInfo;
+import com.insight.utils.pojo.app.FuncInfo;
+import com.insight.utils.pojo.base.BaseXo;
 
 /**
  * @author 宣炳刚
