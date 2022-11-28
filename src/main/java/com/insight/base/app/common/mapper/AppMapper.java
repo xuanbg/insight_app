@@ -5,10 +5,10 @@ import com.insight.base.app.common.dto.FuncListDto;
 import com.insight.base.app.common.dto.NavListDto;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
-import com.insight.utils.common.JsonTypeHandler;
 import com.insight.utils.pojo.app.Application;
 import com.insight.utils.pojo.app.FuncInfo;
 import com.insight.utils.pojo.app.ModuleInfo;
+import com.insight.utils.pojo.base.JsonTypeHandler;
 import com.insight.utils.pojo.base.Search;
 import org.apache.ibatis.annotations.*;
 
@@ -98,7 +98,7 @@ public interface AppMapper {
      * @param navigator 导航DTO
      */
     @Insert("insert ibs_navigator(id, parent_id, app_id, type, `index`, `name`, module_info, creator, creator_id, created_time) values " +
-            "(#{id}, #{parentId}, #{appId}, #{type}, #{index}, #{name}, #{moduleInfo, typeHandler = com.insight.utils.common.JsonTypeHandler}, " +
+            "(#{id}, #{parentId}, #{appId}, #{type}, #{index}, #{name}, #{moduleInfo, typeHandler = com.insight.utils.pojo.base.JsonTypeHandler}, " +
             "#{creator}, #{creatorId}, #{createdTime});")
     void addNavigator(Navigator navigator);
 
@@ -108,7 +108,7 @@ public interface AppMapper {
      * @param navigator 导航DTO
      */
     @Update("update ibs_navigator set parent_id = #{parentId}, app_id = #{appId}, type = #{type}, `index` = #{index}, `name` = #{name}, " +
-            "module_info = #{moduleInfo, typeHandler = com.insight.utils.common.JsonTypeHandler} where id = #{id};")
+            "module_info = #{moduleInfo, typeHandler = com.insight.utils.pojo.base.JsonTypeHandler} where id = #{id};")
     void updateNavigator(Navigator navigator);
 
     /**
@@ -155,7 +155,7 @@ public interface AppMapper {
      * @param function 功能DTO
      */
     @Insert("insert ibs_function(id, nav_id, type, `index`, `name`, auth_codes, func_info, creator, creator_id, created_time) values " +
-            "(#{id}, #{navId}, #{type}, #{index}, #{name}, #{authCodes}, #{funcInfo, typeHandler = com.insight.utils.common.JsonTypeHandler}, " +
+            "(#{id}, #{navId}, #{type}, #{index}, #{name}, #{authCodes}, #{funcInfo, typeHandler = com.insight.utils.pojo.base.JsonTypeHandler}, " +
             "#{creator}, #{creatorId}, #{createdTime});")
     void addFunction(Function function);
 
@@ -165,7 +165,7 @@ public interface AppMapper {
      * @param function 功能DTO
      */
     @Update("update ibs_function set nav_id = #{navId}, type = #{type}, `index` = #{index}, `name` = #{name}, auth_codes = #{authCodes}, " +
-            "func_info = #{funcInfo, typeHandler = com.insight.utils.common.JsonTypeHandler} where id = #{id};")
+            "func_info = #{funcInfo, typeHandler = com.insight.utils.pojo.base.JsonTypeHandler} where id = #{id};")
     void updateFunction(Function function);
 
     /**

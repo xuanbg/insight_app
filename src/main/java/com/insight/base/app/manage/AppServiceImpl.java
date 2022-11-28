@@ -10,11 +10,12 @@ import com.insight.base.app.common.entity.Navigator;
 import com.insight.base.app.common.mapper.AppMapper;
 import com.insight.utils.ReplyHelper;
 import com.insight.utils.SnowflakeCreator;
-import com.insight.utils.pojo.OperateType;
 import com.insight.utils.pojo.app.Application;
 import com.insight.utils.pojo.auth.LoginInfo;
+import com.insight.utils.pojo.base.BusinessException;
 import com.insight.utils.pojo.base.Reply;
 import com.insight.utils.pojo.base.Search;
+import com.insight.utils.pojo.message.OperateType;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -67,13 +68,13 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getApp(Long id) {
+    public Application getApp(Long id) {
         Application app = mapper.getApp(id);
         if (app == null) {
-            return ReplyHelper.fail("ID不存在,未读取数据");
+            throw new BusinessException("ID不存在,未读取数据");
         }
 
-        return ReplyHelper.success(app);
+        return app;
     }
 
     /**
@@ -84,7 +85,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply newApp(LoginInfo info, Application dto) {
+    public Long newApp(LoginInfo info, Application dto) {
         Long id = creator.nextId(0);
         dto.setId(id);
 
@@ -113,7 +114,7 @@ public class AppServiceImpl implements AppService {
         mapper.addApp(dto);
         LogClient.writeLog(info, BUSINESS, OperateType.INSERT, id, dto);
 
-        return ReplyHelper.created(id);
+        return id;
     }
 
     /**
@@ -121,20 +122,17 @@ public class AppServiceImpl implements AppService {
      *
      * @param info 用户关键信息
      * @param dto  应用DTO
-     * @return Reply
      */
     @Override
-    public Reply editApp(LoginInfo info, Application dto) {
+    public void editApp(LoginInfo info, Application dto) {
         Long id = dto.getId();
         Application app = mapper.getApp(id);
         if (app == null) {
-            return ReplyHelper.fail("ID不存在,未更新数据");
+            throw new BusinessException("ID不存在,未更新数据");
         }
 
         mapper.updateApp(dto);
         LogClient.writeLog(info, BUSINESS, OperateType.UPDATE, id, dto);
-
-        return ReplyHelper.success();
     }
 
     /**
@@ -142,19 +140,16 @@ public class AppServiceImpl implements AppService {
      *
      * @param info 用户关键信息
      * @param id   应用ID
-     * @return Reply
      */
     @Override
-    public Reply deleteApp(LoginInfo info, Long id) {
+    public void deleteApp(LoginInfo info, Long id) {
         Application app = mapper.getApp(id);
         if (app == null) {
-            return ReplyHelper.fail("ID不存在,未删除数据");
+            throw new BusinessException("ID不存在,未删除数据");
         }
 
         mapper.deleteApp(id);
         LogClient.writeLog(info, BUSINESS, OperateType.DELETE, id, app);
-
-        return ReplyHelper.success();
     }
 
     /**
@@ -164,15 +159,13 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getNavigators(Long appId) {
+    public List<NavListDto> getNavigators(Long appId) {
         Application app = mapper.getApp(appId);
         if (app == null) {
-            return ReplyHelper.fail("ID不存在,未读取数据");
+            throw new BusinessException("ID不存在,未读取数据");
         }
 
-        List<NavListDto> navigators = mapper.getNavigators(appId);
-
-        return ReplyHelper.success(navigators);
+        return mapper.getNavigators(appId);
     }
 
     /**
@@ -182,13 +175,13 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getNavigator(Long id) {
+    public Navigator getNavigator(Long id) {
         Navigator navigator = mapper.getNavigator(id);
         if (navigator == null) {
-            return ReplyHelper.fail("ID不存在,未读取数据");
+            throw new BusinessException("ID不存在,未读取数据");
         }
 
-        return ReplyHelper.success(navigator);
+        return navigator;
     }
 
     /**
@@ -199,7 +192,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply newNavigator(LoginInfo info, Navigator dto) {
+    public Long newNavigator(LoginInfo info, Navigator dto) {
         Long id = creator.nextId(1);
         dto.setId(id);
         dto.setCreator(info.getUserName());
@@ -209,7 +202,7 @@ public class AppServiceImpl implements AppService {
         mapper.addNavigator(dto);
         LogClient.writeLog(info, BUSINESS, OperateType.INSERT, id, dto);
 
-        return ReplyHelper.created(id);
+        return id;
     }
 
     /**
@@ -217,20 +210,17 @@ public class AppServiceImpl implements AppService {
      *
      * @param info 用户关键信息
      * @param dto  导航DTO
-     * @return Reply
      */
     @Override
-    public Reply editNavigator(LoginInfo info, Navigator dto) {
+    public void editNavigator(LoginInfo info, Navigator dto) {
         Long id = dto.getId();
         Navigator navigator = mapper.getNavigator(id);
         if (navigator == null) {
-            return ReplyHelper.fail("ID不存在,未更新数据");
+            throw new BusinessException("ID不存在,未更新数据");
         }
 
         mapper.updateNavigator(dto);
         LogClient.writeLog(info, BUSINESS, OperateType.UPDATE, id, dto);
-
-        return ReplyHelper.success();
     }
 
     /**
@@ -238,13 +228,12 @@ public class AppServiceImpl implements AppService {
      *
      * @param info 用户关键信息
      * @param id   导航ID
-     * @return Reply
      */
     @Override
-    public Reply deleteNavigator(LoginInfo info, Long id) {
+    public void deleteNavigator(LoginInfo info, Long id) {
         Navigator navigator = mapper.getNavigator(id);
         if (navigator == null) {
-            return ReplyHelper.fail("ID不存在,未删除数据");
+            throw new BusinessException("ID不存在,未删除数据");
         }
 
         if (navigator.getType() == 1) {
@@ -254,8 +243,6 @@ public class AppServiceImpl implements AppService {
         }
 
         LogClient.writeLog(info, BUSINESS, OperateType.DELETE, id, navigator);
-
-        return ReplyHelper.success();
     }
 
     /**
@@ -265,15 +252,13 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getFunctions(Long navId) {
+    public List<FuncListDto> getFunctions(Long navId) {
         Navigator navigator = mapper.getNavigator(navId);
         if (navigator == null) {
-            return ReplyHelper.fail("ID不存在,未读取数据");
+            throw new BusinessException("ID不存在,未读取数据");
         }
 
-        List<FuncListDto> functions = mapper.getFunctions(navId);
-
-        return ReplyHelper.success(functions);
+        return mapper.getFunctions(navId);
     }
 
     /**
@@ -283,13 +268,13 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply getFunction(Long id) {
+    public Function getFunction(Long id) {
         Function function = mapper.getFunction(id);
         if (function == null) {
-            return ReplyHelper.fail("ID不存在,未读取数据");
+            throw new BusinessException("ID不存在,未读取数据");
         }
 
-        return ReplyHelper.success(function);
+        return function;
     }
 
     /**
@@ -300,7 +285,7 @@ public class AppServiceImpl implements AppService {
      * @return Reply
      */
     @Override
-    public Reply newFunction(LoginInfo info, Function dto) {
+    public Long newFunction(LoginInfo info, Function dto) {
         Long id = creator.nextId(1);
         dto.setId(id);
         dto.setCreator(info.getUserName());
@@ -310,7 +295,7 @@ public class AppServiceImpl implements AppService {
         mapper.addFunction(dto);
         LogClient.writeLog(info, BUSINESS, OperateType.INSERT, id, dto);
 
-        return ReplyHelper.created(id);
+        return id;
     }
 
     /**
@@ -318,20 +303,17 @@ public class AppServiceImpl implements AppService {
      *
      * @param info 用户关键信息
      * @param dto  功能DTO
-     * @return Reply
      */
     @Override
-    public Reply editFunction(LoginInfo info, Function dto) {
+    public void editFunction(LoginInfo info, Function dto) {
         Long id = dto.getId();
         Function function = mapper.getFunction(id);
         if (function == null) {
-            return ReplyHelper.fail("ID不存在,未更新数据");
+            throw new BusinessException("ID不存在,未更新数据");
         }
 
         mapper.updateFunction(dto);
         LogClient.writeLog(info, BUSINESS, OperateType.UPDATE, id, dto);
-
-        return ReplyHelper.success();
     }
 
     /**
@@ -339,19 +321,16 @@ public class AppServiceImpl implements AppService {
      *
      * @param info 用户关键信息
      * @param id   功能ID
-     * @return Reply
      */
     @Override
-    public Reply deleteFunction(LoginInfo info, Long id) {
+    public void deleteFunction(LoginInfo info, Long id) {
         Function function = mapper.getFunction(id);
         if (function == null) {
-            return ReplyHelper.fail("ID不存在,未删除数据");
+            throw new BusinessException("ID不存在,未删除数据");
         }
 
         mapper.deleteFunction(id);
         LogClient.writeLog(info, BUSINESS, OperateType.DELETE, id, function);
-
-        return ReplyHelper.success();
     }
 
     /**

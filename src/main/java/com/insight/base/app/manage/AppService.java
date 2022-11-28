@@ -1,11 +1,15 @@
 package com.insight.base.app.manage;
 
+import com.insight.base.app.common.dto.FuncListDto;
+import com.insight.base.app.common.dto.NavListDto;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
 import com.insight.utils.pojo.app.Application;
 import com.insight.utils.pojo.auth.LoginInfo;
 import com.insight.utils.pojo.base.Reply;
 import com.insight.utils.pojo.base.Search;
+
+import java.util.List;
 
 /**
  * @author 宣炳刚
@@ -28,7 +32,7 @@ public interface AppService {
      * @param id 应用ID
      * @return Reply
      */
-    Reply getApp(Long id);
+    Application getApp(Long id);
 
     /**
      * 新增应用
@@ -37,25 +41,23 @@ public interface AppService {
      * @param dto  应用DTO
      * @return Reply
      */
-    Reply newApp(LoginInfo info, Application dto);
+    Long newApp(LoginInfo info, Application dto);
 
     /**
      * 编辑应用
      *
      * @param info 用户关键信息
      * @param dto  应用DTO
-     * @return Reply
      */
-    Reply editApp(LoginInfo info, Application dto);
+    void editApp(LoginInfo info, Application dto);
 
     /**
      * 删除应用
      *
      * @param info 用户关键信息
      * @param id   应用ID
-     * @return Reply
      */
-    Reply deleteApp(LoginInfo info, Long id);
+    void deleteApp(LoginInfo info, Long id);
 
     /**
      * 获取导航列表
@@ -63,7 +65,7 @@ public interface AppService {
      * @param appId 应用ID
      * @return Reply
      */
-    Reply getNavigators(Long appId);
+    List<NavListDto> getNavigators(Long appId);
 
     /**
      * 获取导航详情
@@ -71,7 +73,7 @@ public interface AppService {
      * @param id 导航ID
      * @return Reply
      */
-    Reply getNavigator(Long id);
+    Navigator getNavigator(Long id);
 
     /**
      * 新增导航
@@ -80,25 +82,23 @@ public interface AppService {
      * @param dto  导航DTO
      * @return Reply
      */
-    Reply newNavigator(LoginInfo info, Navigator dto);
+    Long newNavigator(LoginInfo info, Navigator dto);
 
     /**
      * 编辑导航
      *
      * @param info 用户关键信息
      * @param dto  导航DTO
-     * @return Reply
      */
-    Reply editNavigator(LoginInfo info, Navigator dto);
+    void editNavigator(LoginInfo info, Navigator dto);
 
     /**
      * 删除导航
      *
      * @param info 用户关键信息
      * @param id   导航ID
-     * @return Reply
      */
-    Reply deleteNavigator(LoginInfo info, Long id);
+    void deleteNavigator(LoginInfo info, Long id);
 
     /**
      * 获取功能列表
@@ -106,7 +106,7 @@ public interface AppService {
      * @param navId 导航ID
      * @return Reply
      */
-    Reply getFunctions(Long navId);
+    List<FuncListDto> getFunctions(Long navId);
 
     /**
      * 获取功能详情
@@ -114,7 +114,7 @@ public interface AppService {
      * @param id 功能ID
      * @return Reply
      */
-    Reply getFunction(Long id);
+    Function getFunction(Long id);
 
     /**
      * 新增功能
@@ -123,25 +123,23 @@ public interface AppService {
      * @param dto  功能DTO
      * @return Reply
      */
-    Reply newFunction(LoginInfo info, Function dto);
+    Long newFunction(LoginInfo info, Function dto);
 
     /**
      * 编辑功能
      *
      * @param info 用户关键信息
      * @param dto  功能DTO
-     * @return Reply
      */
-    Reply editFunction(LoginInfo info, Function dto);
+    void editFunction(LoginInfo info, Function dto);
 
     /**
      * 删除功能
      *
      * @param info 用户关键信息
      * @param id   功能ID
-     * @return Reply
      */
-    Reply deleteFunction(LoginInfo info, Long id);
+    void deleteFunction(LoginInfo info, Long id);
 
     /**
      * 获取日志列表
