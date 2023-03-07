@@ -28,7 +28,7 @@ public interface AppMapper {
      * @param search 查询实体类
      * @return 应用列表
      */
-    @Select("<script>select id, `index`, name, alias, domain, permit_life, token_life, is_verify_source, is_signin_one, is_auto_refresh from ibs_application " +
+    @Select("<script>select id, `index`, name, alias, domain, permit_life, token_life, verify_source, signin_one, auto_refresh from ibs_application " +
             "<if test = 'keyword!=null'>where `name` like concat('%',#{keyword},'%') or alias = #{keyword} or domain like concat('%',#{keyword},'%') </if>" +
             "</script>")
     List<AppListDto> getApps(Search search);
@@ -48,9 +48,9 @@ public interface AppMapper {
      * @param app 应用DTO
      */
     @Insert("insert ibs_application (id, `index`, `name`, alias, icon, domain, permit_life, token_life, " +
-            "is_verify_source, is_signin_one, is_auto_refresh, creator, creator_id, created_time) " +
+            "verify_source, signin_one, auto_refresh, creator, creator_id, created_time) " +
             "values (#{id}, #{index}, #{name}, #{alias}, #{icon}, #{domain}, #{permitLife}, #{tokenLife}, " +
-            "#{isVerifySource}, #{isSigninOne}, #{isAutoRefresh}, #{creator}, #{creatorId}, #{createdTime});")
+            "#{verifySource}, #{signinOne}, #{autoRefresh}, #{creator}, #{creatorId}, #{createdTime});")
     void addApp(Application app);
 
     /**
@@ -59,8 +59,8 @@ public interface AppMapper {
      * @param app 应用DTO
      */
     @Update("update ibs_application set `index` = #{index}, `name` = #{name}, alias = #{alias}, icon = #{icon}, domain = #{domain}, " +
-            "permit_life = #{permitLife}, token_life = #{tokenLife}, is_verify_source = #{isVerifySource}, " +
-            "is_signin_one = #{isSigninOne}, is_auto_refresh = #{isAutoRefresh} where id = #{id};")
+            "permit_life = #{permitLife}, token_life = #{tokenLife}, verify_source = #{verifySource}, " +
+            "signin_one = #{signinOne}, auto_refresh = #{autoRefresh} where id = #{id};")
     void updateApp(Application app);
 
     /**

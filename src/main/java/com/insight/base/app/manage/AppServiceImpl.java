@@ -54,11 +54,11 @@ public class AppServiceImpl implements AppService {
      */
     @Override
     public Reply getApps(Search search) {
-        var page = PageHelper.startPage(search.getPageNum(), search.getPageSize())
-                .setOrderBy(search.getOrderBy()).doSelectPage(() -> mapper.getApps(search));
-
-        var total = page.getTotal();
-        return total > 0 ? ReplyHelper.success(page.getResult(), total) : ReplyHelper.resultIsEmpty();
+        try (var page = PageHelper.startPage(search.getPageNum(), search.getPageSize())
+                .setOrderBy(search.getOrderBy()).doSelectPage(() -> mapper.getApps(search))) {
+            var total = page.getTotal();
+            return total > 0 ? ReplyHelper.success(page.getResult(), total) : ReplyHelper.resultIsEmpty();
+        }
     }
 
     /**
