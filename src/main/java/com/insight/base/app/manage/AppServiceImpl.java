@@ -88,25 +88,6 @@ public class AppServiceImpl implements AppService {
     public Long newApp(LoginInfo info, Application dto) {
         Long id = creator.nextId(0);
         dto.setId(id);
-
-        Long permitLife = dto.getPermitLife();
-        if (permitLife == null || permitLife == 0) {
-            dto.setPermitLife(300000L);
-        }
-
-        Long tokenLife = dto.getTokenLife();
-        if (tokenLife == null || tokenLife == 0) {
-            dto.setTokenLife(7200000L);
-        }
-
-        if (dto.getSigninOne() == null) {
-            dto.setSigninOne(false);
-        }
-
-        if (dto.getAutoRefresh() == null) {
-            dto.setAutoRefresh(false);
-        }
-
         dto.setCreator(info.getUserName());
         dto.setCreatorId(info.getUserId());
         dto.setCreatedTime(LocalDateTime.now());
