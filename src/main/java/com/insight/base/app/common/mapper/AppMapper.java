@@ -69,7 +69,7 @@ public interface AppMapper {
      * @param id 应用ID
      */
     @Delete("delete a, n, f, p from ibs_application a left join ibs_navigator n on n.app_id = a.id left join ibs_function f on f.nav_id = n.id " +
-            "left join ibr_role_func_permit p on p.function_id = f.id where a.id = #{id};")
+            "left join ibr_role_permit p on p.function_id = f.id where a.id = #{id};")
     void deleteApp(Long id);
 
     /**
