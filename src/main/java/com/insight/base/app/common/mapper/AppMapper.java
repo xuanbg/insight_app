@@ -117,7 +117,7 @@ public interface AppMapper {
      * @param id 导航ID
      */
     @Delete("delete n, m, f, p from ibs_navigator n left join ibs_navigator m on m.parent_id = n.id left join ibs_function f on f.nav_id = m.id " +
-            "left join ibr_role_func_permit p on p.function_id = f.id where n.id = #{id};")
+            "left join ibr_role_permit p on p.function_id = f.id where n.id = #{id};")
     void deleteNavigator(Long id);
 
     /**
@@ -126,7 +126,7 @@ public interface AppMapper {
      * @param id 导航ID
      */
     @Delete("delete m, f, p from ibs_navigator m left join ibs_function f on f.nav_id = m.id " +
-            "left join ibr_role_func_permit p on p.function_id = f.id where m.id = #{id};")
+            "left join ibr_role_permit p on p.function_id = f.id where m.id = #{id};")
     void deleteModule(Long id);
 
     /**
@@ -173,6 +173,6 @@ public interface AppMapper {
      *
      * @param id 功能ID
      */
-    @Delete("delete f, p from ibs_function f left join ibr_role_func_permit p on p.function_id = f.id where f.id = #{id};")
+    @Delete("delete f, p from ibs_function f left join ibr_role_permit p on p.function_id = f.id where f.id = #{id};")
     void deleteFunction(Long id);
 }
