@@ -88,8 +88,8 @@ public class AppServiceImpl implements AppService {
     public Long newApp(LoginInfo info, Application dto) {
         Long id = creator.nextId(0);
         dto.setId(id);
-        dto.setCreator(info.getUserName());
-        dto.setCreatorId(info.getUserId());
+        dto.setCreator(info.getName());
+        dto.setCreatorId(info.getId());
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addApp(dto);
@@ -176,8 +176,8 @@ public class AppServiceImpl implements AppService {
     public Long newNavigator(LoginInfo info, Navigator dto) {
         Long id = creator.nextId(1);
         dto.setId(id);
-        dto.setCreator(info.getUserName());
-        dto.setCreatorId(info.getUserId());
+        dto.setCreator(info.getName());
+        dto.setCreatorId(info.getId());
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addNavigator(dto);
@@ -269,8 +269,8 @@ public class AppServiceImpl implements AppService {
     public Long newFunction(LoginInfo info, Function dto) {
         Long id = creator.nextId(1);
         dto.setId(id);
-        dto.setCreator(info.getUserName());
-        dto.setCreatorId(info.getUserId());
+        dto.setCreator(info.getName());
+        dto.setCreatorId(info.getId());
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addFunction(dto);
