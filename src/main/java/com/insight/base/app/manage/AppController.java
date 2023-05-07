@@ -1,5 +1,6 @@
 package com.insight.base.app.manage;
 
+import com.insight.base.app.common.client.LogServiceClient;
 import com.insight.base.app.common.dto.FuncListDto;
 import com.insight.base.app.common.dto.NavListDto;
 import com.insight.base.app.common.entity.Function;
@@ -23,14 +24,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/base/resource")
 public class AppController {
+    private final LogServiceClient client;
     private final AppService service;
 
     /**
      * 构造方法
      *
+     * @param client Feign客户端
      * @param service 自动注入的Service
      */
-    public AppController(AppService service) {
+    public AppController(LogServiceClient client, AppService service) {
+        this.client = client;
         this.service = service;
     }
 
@@ -227,24 +231,28 @@ public class AppController {
     }
 
     /**
-     * 获取日志列表
+     * 查询日志
      *
-     * @param search 查询实体类
-     * @return Reply
+     * @param loginInfo 用户登录信息
+     * @param search    查询条件
+     * @return 日志集合
      */
-    @GetMapping("/v1.0/apps/logs")
-    public Reply getAppLogs(Search search) {
-        return service.getAppLogs(search);
+    @GetMapping("/v1.0/apps/{id}/logs")
+    public Reply getAirportLogs(@RequestHeader("loginInfo") String loginInfo, @PathVariable Long id, Search search) {
+        var info = Json.toBeanFromBase64(loginInfo, LoginInfo.class);
+        return client.getLogs(id, "Resource", search.getKeyword());
     }
 
     /**
-     * 获取日志详情
+     * 获取日志
      *
-     * @param id 日志ID
-     * @return Reply
+     * @param loginInfo 用户登录信息
+     * @param id        日志ID
+     * @return 日志VO
      */
     @GetMapping("/v1.0/apps/logs/{id}")
-    public Reply getAppLog(@PathVariable Long id) {
-        return service.getAppLog(id);
+    public Reply getAirportLog(@RequestHeader("loginInfo") String loginInfo, @PathVariable Long id) {
+        var info = Json.toBeanFromBase64(loginInfo, LoginInfo.class);
+        return client.getLog(id);
     }
 }

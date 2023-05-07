@@ -140,20 +140,4 @@ public interface AppService {
      * @param id   功能ID
      */
     void deleteFunction(LoginInfo info, Long id);
-
-    /**
-     * 获取日志列表
-     *
-     * @param search 查询实体类
-     * @return Reply
-     */
-    Reply getAppLogs(Search search);
-
-    /**
-     * 获取日志详情
-     *
-     * @param id 日志ID
-     * @return Reply
-     */
-    Reply getAppLog(Long id);
 }

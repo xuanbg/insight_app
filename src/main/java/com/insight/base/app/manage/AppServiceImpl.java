@@ -2,7 +2,6 @@ package com.insight.base.app.manage;
 
 import com.github.pagehelper.PageHelper;
 import com.insight.base.app.common.client.LogClient;
-import com.insight.base.app.common.client.LogServiceClient;
 import com.insight.base.app.common.dto.FuncListDto;
 import com.insight.base.app.common.dto.NavListDto;
 import com.insight.base.app.common.entity.Function;
@@ -28,22 +27,19 @@ import java.util.List;
  */
 @Service
 public class AppServiceImpl implements AppService {
-    private static final String BUSINESS = "资源管理";
+    private static final String BUSINESS = "Resource";
     private final SnowflakeCreator creator;
     private final AppMapper mapper;
-    private final LogServiceClient client;
 
     /**
      * 构造方法
      *
      * @param creator 雪花算法ID生成器
      * @param mapper  AppMapper
-     * @param client  LogServiceClient
      */
-    public AppServiceImpl(SnowflakeCreator creator, AppMapper mapper, LogServiceClient client) {
+    public AppServiceImpl(SnowflakeCreator creator, AppMapper mapper) {
         this.creator = creator;
         this.mapper = mapper;
-        this.client = client;
     }
 
     /**
@@ -312,27 +308,5 @@ public class AppServiceImpl implements AppService {
 
         mapper.deleteFunction(id);
         LogClient.writeLog(info, BUSINESS, OperateType.DELETE, id, function);
-    }
-
-    /**
-     * 获取日志列表
-     *
-     * @param search 查询实体类
-     * @return Reply
-     */
-    @Override
-    public Reply getAppLogs(Search search) {
-        return client.getLogs(BUSINESS, search.getKeyword(), search.getPageNum(), search.getPageSize());
-    }
-
-    /**
-     * 获取日志详情
-     *
-     * @param id 日志ID
-     * @return Reply
-     */
-    @Override
-    public Reply getAppLog(Long id) {
-        return client.getLog(id);
     }
 }
