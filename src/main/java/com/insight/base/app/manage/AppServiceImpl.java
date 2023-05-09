@@ -89,7 +89,7 @@ public class AppServiceImpl implements AppService {
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addApp(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.INSERT, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.NEW, id, dto);
 
         return id;
     }
@@ -109,7 +109,7 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.updateApp(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.UPDATE, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.EDIT, id, dto);
     }
 
     /**
@@ -177,7 +177,7 @@ public class AppServiceImpl implements AppService {
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addNavigator(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.INSERT, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.NEW, id, dto);
 
         return id;
     }
@@ -197,7 +197,7 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.updateNavigator(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.UPDATE, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.EDIT, id, dto);
     }
 
     /**
@@ -270,7 +270,7 @@ public class AppServiceImpl implements AppService {
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addFunction(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.INSERT, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.NEW, id, dto);
 
         return id;
     }
@@ -290,7 +290,7 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.updateFunction(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.UPDATE, id, dto);
+        LogClient.writeLog(info, BUSINESS, OperateType.EDIT, id, dto);
     }
 
     /**
