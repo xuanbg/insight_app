@@ -1,7 +1,6 @@
 package com.insight.base.app.manage;
 
 import com.github.pagehelper.PageHelper;
-import com.insight.base.app.common.client.LogClient;
 import com.insight.base.app.common.dto.FuncListDto;
 import com.insight.base.app.common.dto.NavListDto;
 import com.insight.base.app.common.entity.Function;
@@ -14,7 +13,6 @@ import com.insight.utils.pojo.auth.LoginInfo;
 import com.insight.utils.pojo.base.BusinessException;
 import com.insight.utils.pojo.base.Reply;
 import com.insight.utils.pojo.base.Search;
-import com.insight.utils.pojo.message.OperateType;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,7 +25,6 @@ import java.util.List;
  */
 @Service
 public class AppServiceImpl implements AppService {
-    private static final String BUSINESS = "Resource";
     private final SnowflakeCreator creator;
     private final AppMapper mapper;
 
@@ -89,8 +86,6 @@ public class AppServiceImpl implements AppService {
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addApp(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.NEW, id, dto);
-
         return id;
     }
 
@@ -109,7 +104,6 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.updateApp(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.EDIT, id, dto);
     }
 
     /**
@@ -126,7 +120,6 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.deleteApp(id);
-        LogClient.writeLog(info, BUSINESS, OperateType.DELETE, id, app);
     }
 
     /**
@@ -177,8 +170,6 @@ public class AppServiceImpl implements AppService {
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addNavigator(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.NEW, id, dto);
-
         return id;
     }
 
@@ -197,7 +188,6 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.updateNavigator(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.EDIT, id, dto);
     }
 
     /**
@@ -218,8 +208,6 @@ public class AppServiceImpl implements AppService {
         } else {
             mapper.deleteModule(id);
         }
-
-        LogClient.writeLog(info, BUSINESS, OperateType.DELETE, id, navigator);
     }
 
     /**
@@ -270,8 +258,6 @@ public class AppServiceImpl implements AppService {
         dto.setCreatedTime(LocalDateTime.now());
 
         mapper.addFunction(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.NEW, id, dto);
-
         return id;
     }
 
@@ -290,7 +276,6 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.updateFunction(dto);
-        LogClient.writeLog(info, BUSINESS, OperateType.EDIT, id, dto);
     }
 
     /**
@@ -307,6 +292,5 @@ public class AppServiceImpl implements AppService {
         }
 
         mapper.deleteFunction(id);
-        LogClient.writeLog(info, BUSINESS, OperateType.DELETE, id, function);
     }
 }

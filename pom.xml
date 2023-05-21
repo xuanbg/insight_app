@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.insight.base</groupId>
-    <artifactId>app</artifactId>
+    <artifactId>base-resource</artifactId>
     <version>2.0.0-RELEASE</version>
-    <name>App</name>
+    <name>resource</name>
     <description>App project for Spring Boot</description>
 
     <properties>
