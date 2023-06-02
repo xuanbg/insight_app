@@ -22,7 +22,6 @@ import java.util.List;
  * @date 2019/12/11
  * @remark 应用管理服务控制器
  */
-@CrossOrigin
 @RestController
 @RequestMapping("/base/resource")
 public class AppController {
