@@ -2,9 +2,9 @@ package com.insight.base.app.manage;
 
 import com.insight.base.app.common.dto.FuncListDto;
 import com.insight.base.app.common.dto.NavListDto;
+import com.insight.base.app.common.entity.Application;
 import com.insight.base.app.common.entity.Function;
 import com.insight.base.app.common.entity.Navigator;
-import com.insight.utils.pojo.app.Application;
 import com.insight.utils.pojo.auth.LoginInfo;
 import com.insight.utils.pojo.base.Reply;
 import com.insight.utils.pojo.base.Search;
